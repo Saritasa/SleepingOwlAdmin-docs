@@ -1,12 +1,14 @@
-# Управление ресурсами (Assets Management)
+# Assets Management
 
-В SleepingOwlAdmin реализован достаточно гибкий механизм подключения ассетов с помощью пакета 
-[kodicms/laravel-assets](https://github.com/KodiCMS/laravel-assets) - позволяющий разработчику управлять статичными ресурсами в
-веб-приложении, такими как каскадные таблицы стилей или javascript’ы (Данный пакет можно использовать независимо от админки)
+SleepingOwlAdmin implements a flexible assets management, using package
+[kodicms/laravel-assets](https://github.com/KodiCMS/laravel-assets) - 
+it allows developer to manage static resources in web-application, like CSS or JavaScript files.
+(this package can be used standalone, without admin panel)
 
-Для работы с ассетами через элементы форм, отображения и т.д. используется trait [assets](assets_trait.md), который работает через класс `Meta`.
+To manage assets within form elements, views, etc. you can use trait [assets](assets_trait.md), 
+implemented via class `Meta`.
 
-Пакет представлен тремя фасадами 
+Package is represented with 3 facades: 
  - [Meta](#meta)
  - [Assets](#assets)
  - [PackageManager](#package-manager)
