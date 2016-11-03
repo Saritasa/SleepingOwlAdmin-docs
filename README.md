@@ -1,1 +1,1 @@
-# Документация для [SleepingOwl Admin](https://github.com/LaravelRUS/SleepingOwlAdmin)
+# [SleepingOwl Admin](https://github.com/LaravelRUS/SleepingOwlAdmin) Documentation

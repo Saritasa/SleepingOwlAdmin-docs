@@ -2,34 +2,34 @@
 
 ## SleepingOwl Admin 4
 
-Начиная с 4-й версии развитие пакета производится силами сообщества [LaravelRUS](https://github.com/LaravelRUS).
+Since 4th version developed and maintained by [LaravelRUS](https://github.com/LaravelRUS).
 
 
 ## SleepingOwl Admin 3 (beta)
 
-ВНИМАНИЕ: данная вресия более не поддерживается.
+ATTENTION: this version is no longer supported.
 
 ### Ссылки
 
 GitHub: https://github.com/sleeping-owl/admin/tree/development
 
-Демо: http://sleepingowladmindemo2.cloudcontrolled.com/
+Demo: http://sleepingowladmindemo2.cloudcontrolled.com/
 
-Документация на русском языке:  http://sleeping-owl.github.io/v3/ru/Introduction.html
+Documentation (russian):  http://sleeping-owl.github.io/v3/ru/Introduction.html
 
-Документация на английском
+Documentation (english):
 http://sleeping-owl.github.io/v3/en/Introduction.html
 
 ## SleepingOwl Admin 2
 
-ВНИМАНИЕ: данная вресия более не поддерживается.
+ATTENTION: this version is no longer supported.
 
-### Ссылки
+### Links
 
 GitHub: https://github.com/sleeping-owl/admin
 
-Демо: http://sleepingowladmindemo.cloudcontrolled.com/admin/login
+Demo: http://sleepingowladmindemo.cloudcontrolled.com/admin/login
 
-Документация на русском языке: http://sleeping-owl.github.io/ru/Introduction.html
+Documentation (russian): http://sleeping-owl.github.io/ru/Introduction.html
 
-Документация на английском: http://sleeping-owl.github.io/en/Introduction.html
+Documentation (english): http://sleeping-owl.github.io/en/Introduction.html
