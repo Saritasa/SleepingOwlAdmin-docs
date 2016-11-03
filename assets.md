@@ -19,9 +19,11 @@ Package is represented with 3 facades:
 ## Meta
 `KodiCMS\Assets\Meta`
 
-Класс мета используется для генерации блока meta информации в шаблоне. Класс представляет собой сервис контейнер, который инициализируется вместе с инициализацией всех компонентов системы и является `singleton` и позволяет добавлять стили и скрипты в шаблон в любой момент, до вывода шаблона.
+Class Meta is used to generate bock 'meta' in template. This class is a service container,
+initialized during all system components initialization. It's a `singleton` 
+and allows to add styles and scripts at any moment before template rendering.
 
-**Пример использования**
+**Usage example**
 ```php
  Meta::setTitle('Test title')
  ->setMetaDescription(...)
@@ -54,7 +56,7 @@ Package is represented with 3 facades:
 
 #### `loadPackage`
 
-Подключение пакетов.
+Loads previously defined packages.
 
 ```php
 static::loadPackage(string|array $packages): return $this
@@ -76,23 +78,22 @@ Meta::loadPackage(['jquery', 'ckeditor'])
 
 #### `addJs`
 
-Добавление javascript файла.
+Adds *javascript* file.
 
 ```php
 static::addJs(string $handle, string $src, array|string $dependency = null, bool $footer = false): return $this
 ```
 
-##### Аргументы
-* `$handle` **string** - Ключ ассета (При указании существующего ключа, будет заменен существующий ассет)
-* `$src` **string** - Путь до фала (URL)
-* `$dependency` **array|string** - Зависимости (Зависимости определяются по ключу в `$handle`. Т.е. если у вас подключен `jquery` и 
-вам необходимо подключить свой скрипт только после него, то вы указываете его в качестве зависимости, это же правило распространяется 
-на пакеты)
-* `$footer` **bool** - будет помечен для вывода в футере
+##### Arguments
+* `$handle` **string** - Asset key (if you provide existing key, corresponding asset will be replaced)
+* `$src` **string** - Path to file (URL)
+* `$dependency` **array|string** - Dependencies (identified by `$handle`. I.e. если you have asset `jquery` and 
+you need to use your script only after it is loaded, you can put `jquery` in dependencies. The same about packages)
+* `$footer` **bool** - will be marked to print include in footer (rather than in header)
 
 #### `addJsElixir`
 
-Добавление javascript файла c версионностью
+Add versioned javascript file
 
 ```php
 static::addJsElixir(string $filename = 'js/app.js', string|array $dependency = null, bool $footer = false): return $this
@@ -100,30 +101,29 @@ static::addJsElixir(string $filename = 'js/app.js', string|array $dependency = n
 
 #### `removeJs`
 
-Удаление javascript файла. *Если параметр `$handle` не передан, будут удалены все javascript*
+Remove javascript file. *If parameter `$handle` not provided, all javascript assets will be removed*
 
 ```php
 static::removeJs(string $handle = null): return $this
 ```
 
 #### `addCss`
-Добавление css файла.
+Add *css* file.
 
 ```php
 static::addCss(string $handle, string $src, array|string $dependency = null, array $attributes = []): return $this
 ```
 
-##### Аргументы
-* `$handle` **string** - Ключ ассета (При указании существующего ключа, будет заменен существующий ассет)
-* `$src` **string** - Путь до фала (URL)
-* `$dependency` **array|string** - Зависимости (Зависимости определяются по ключу в `$handle`. Т.е. если у вас подключен `jquery` и 
-вам необходимо подключить свой скрипт только после него, то вы указываете его в качестве зависимости, это же правило распространяется 
-на пакеты)
-* `$attributes` **array** - Дополнительные атрибуты (`['rel' => 'stylesheet', 'media' => 'all']`)
+##### Arguments
+* `$handle` **string** - Asset key (if you provide existing key, existing asset will be replaced)
+* `$src` **string** - path to file (URL)
+* `$dependency` **array|string** - Dependencies (Identified by `$handle`. If you have asset `jquery` and 
+you need to use your script only after it is loaded, you can put `jquery` in dependencies. The same about packages)
+* `$attributes` **array** - Additional attributes (`['rel' => 'stylesheet', 'media' => 'all']`)
 
 #### `addCssElixir`
 
-Добавление css файла c версионностью
+Add versioned css file
 
 ```php
 static::addCssElixir(string $filename = 'css/all.css', string|array $dependency = null, array $attributes = []): return $this
@@ -131,14 +131,14 @@ static::addCssElixir(string $filename = 'css/all.css', string|array $dependency 
 
 #### `removeCss`
 
-Удаление css файла. *Если параметр `$handle` не передан, будут удалены все javascript*
+Remove css file. *If parameter`$handle` not provided, all css assets will be removed*
 
 ```php
 static::removeCss(string $handle = null): return $this
 ```
 
 #### `putVars`
-Вывод в шаблон javascript переменной.
+Print variables into javascript template.
 
 ```php
 static::putVars(string|array $key, mixed $value = null): return $this
@@ -159,7 +159,7 @@ window.key = 'value';
 
 #### `removeVars`
 
-Удаление всех добавленных в стек данных
+Remove all added variables from stack.
 
 ```php
 static::removeVars(): return $this
@@ -167,7 +167,7 @@ static::removeVars(): return $this
 
 
 #### `setTitle`
-Указание заголовка `<title>...</title>`
+Set title `<title>...</title>`
 
 ```php
 static::setTitle(string $title): return $this
@@ -179,7 +179,7 @@ Meta::setTitle('SleepingOwl Admin')
 
 #### `setMetaDescription`
 
-Указание описание `<meta name="description" content="...">`
+Add tag `<meta name="description" content="...">`
 
 ```php
 static::setMetaDescription(string $description): return $this
@@ -187,7 +187,7 @@ static::setMetaDescription(string $description): return $this
 
 #### `setMetaKeywords`
 
-Указание ключевых слов `<meta name="keywords" content="...">`
+Set keywords in tag `<meta name="keywords" content="...">`
 
 ```php
 static::setMetaKeywords(array|string $keywords): return $this
@@ -203,7 +203,7 @@ static::setMetaRobots(string $robots): return $this
 
 #### `setMetaData`
 
-Указание метаданных через класс реализующий интерфейс `KodiCMS\Assets\Contracts\MetaDataInterface`
+Set meta data via class, implementing `KodiCMS\Assets\Contracts\MetaDataInterface`
   - title
   - description
   - keywords
@@ -215,7 +215,7 @@ static::setMetaData(\KodiCMS\Assets\Contracts\MetaDataInterface $data): return $
   
 #### `addSocialTags`
 
-Добавление тегов для соц. сетей через класс, реализующий интерфейс `KodiCMS\Assets\Contracts\SocialMediaTagsInterface`
+Add social nets tags via class, implementing `KodiCMS\Assets\Contracts\SocialMediaTagsInterface`
 
 ```php
 static::addSocialTags(\KodiCMS\Assets\Contracts\SocialMediaTagsInterface $socialTags): return $this
@@ -223,7 +223,7 @@ static::addSocialTags(\KodiCMS\Assets\Contracts\SocialMediaTagsInterface $social
 
 #### `setFavicon`
 
-Указание favicon для страницы `<link rel=".." href=".." type="image/x-icon" />`
+Set favicon for a page `<link rel=".." href=".." type="image/x-icon" />`
 
 ```php
 static::setFavicon(string $url, string $rel = 'shortcut icon'): return $this
@@ -231,13 +231,13 @@ static::setFavicon(string $url, string $rel = 'shortcut icon'): return $this
 
 #### `addMeta`
 
-Добавление `meta` тега 
+Add `meta` tag
 
 ```php
 static::addMeta(array $attributes, string $group = null): return $this
 ```
-##### Аргументы
-* `$group` **string** - Ключ элемента в группе
+##### Arguments
+* `$group` **string** - Key of element in group
 
 
 ```php
@@ -246,19 +246,19 @@ Meta::addMeta(['name' => 'description', 'content' => 'hello world']) // <meta na
 
 #### `addTagToGroup`
 
-Добавление HTML тега в группу. *По умолчанию все meta теги (`favicon`, `description`, `keywords`) создаваемые через класс `Meta` после генерации в html добавляются в группу с ключом `meta`*
+Add HTML tag into group. *By default, all tags (`favicon`, `description`, `keywords`) created via class `Meta` 
+after html generation will be added to group with key `meta`*
 
 ```php
 static::addTagToGroup(string $handle, string $content, array $params = [], string|array $dependency = null): return $this
 ```
 
-##### Аргументы
-* `$handle` **string** - Ключ элемента в группе
-* `$content` **string** - HTML код `<meta name=":name" content=":description" />`
-* `$params` **array** - Параметры для замены. (`[':name' => $name, ':description' => 'My super description']`)
-* `$dependency` **array|string** - Зависимости (Зависимости определяются по ключу в `$handle`. Т.е. если у вас подключен `jquery` и 
-вам необходимо подключить свой скрипт только после него, то вы указываете его в качестве зависимости, это же правило распространяется 
-на пакеты)
+##### Arguments
+* `$handle` **string** - Element key in group
+* `$content` **string** - HTML code `<meta name=":name" content=":description" />`
+* `$params` **array** - Replaceable parameters. (`[':name' => $name, ':description' => 'My super description']`)
+* `$dependency` **array|string** - Dependencies (identified by `$handle`. I.e. если you have asset `jquery` and 
+you need to use your script only after it is loaded, you can put `jquery` in dependencies. The same about packages)
 
 ```php
 Meta::addTagToGroup('favicon', '<link rel=":rel" href=":url" type=":type" />', [
@@ -270,7 +270,7 @@ Meta::addTagToGroup('favicon', '<link rel=":rel" href=":url" type=":type" />', [
 
 #### `removeFromGroup`
 
-Удаление HTML тега из группы.
+Delete HTML tag from group.
 
 ```php
 static::removeFromGroup(string $handle): return $this
@@ -278,7 +278,7 @@ static::removeFromGroup(string $handle): return $this
 
 #### `assets`
 
-Получение объекта `KodiCMS\Assets\Assets`
+Get object `KodiCMS\Assets\Assets`
 
 ```php
 static::removeFromGroup(string $handle): return $this
@@ -288,15 +288,15 @@ static::removeFromGroup(string $handle): return $this
 ## Assets
 `KodiCMS\Assets\Assets`
 
-Класс Assets является хранилищем списка `css`, `javascript`, `vars` и `groups`. 
+Class Assets is a storage for lists `css`, `javascript`, `vars` и `groups`. 
 
-**Класс Meta при добавлении ассетов использует данный класс в качестве хранилища.**
+**Class Meta uses this class as storage, when adds assets.**
 
 ## API
 
 #### `packageManager`
 
-Получение объекта `KodiCMS\Assets\PackageManager`
+Gets object `KodiCMS\Assets\PackageManager`
 
 ```php
 static::removeFromGroup(string $handle): return $this
@@ -306,9 +306,9 @@ static::removeFromGroup(string $handle): return $this
 ## PackageManager
 `KodiCMS\Assets\PackageManager extends Collection`
 
-Менеджер пакетов. Пакет представляет из себя набор ассетов (javascript и css), которые объединены в одну группу, доступную по имени. 
+Package manager. Package is a set of assets (javascript and css), which are joined into group, available by name. 
 
-**Пример инициализации**
+**Initialization example**
 ```php
 // app\Providers\AppServiceProvider.php
 
@@ -321,7 +321,7 @@ public function boot()
 }
 ```
 
-Получить список доступных пакетов можно через консольную команду
+You can get all accessible packages with console command
 
 ```bash
 $ php artisan assets:packages
@@ -331,7 +331,7 @@ $ php artisan assets:packages
 
 #### `add`
 
-Добавление нового пакета
+Add new package
 
 ```php
 static::add(KodiCMS\Assets\Contracts\PackageInterface|string $package): return KodiCMS\Assets\Contracts\PackageInterface
@@ -339,7 +339,7 @@ static::add(KodiCMS\Assets\Contracts\PackageInterface|string $package): return K
 
 #### `load`
 
-Загрузка объекта пакета 
+Load package object 
 
 ```php
 static::load(string $name): return KodiCMS\Assets\Contracts\PackageInterface|null
@@ -349,13 +349,13 @@ static::load(string $name): return KodiCMS\Assets\Contracts\PackageInterface|nul
 ## Package
 `KodiCMS\Assets\Package extends Collection`
 
-Пакет (контейнер) для хранения ассетов
+Package (container) for assets storage
 
 ## API
 
 #### `with`
 
-Добавить зависимость от других пакетов (Будут загружены автоматически при подключении пакета в шаблон)
+Add other packages dependency (these packages will be loaded automatically, when you add a package to template)
 
 ```php
 static::with(array|...$packages): return $this
@@ -363,31 +363,30 @@ static::with(array|...$packages): return $this
 
 #### `js`
 
-Добавление javascript файла.
+Add javascript file.
 
 ```php
 static::js(string $handle, string $src, array|string $dependency = null, bool $footer = false): return $this
 ```
 
 ##### Аргументы
-* `$handle` **string** - Ключ ассета (При указании существующего ключа, будет заменен существующий ассет)
-* `$src` **string** - Путь до фала (URL)
-* `$dependency` **array|string** - Зависимости (Зависимости определяются по ключу в `$handle`. Т.е. если у вас подключен `jquery` и 
-вам необходимо подключить свой скрипт только после него, то вы указываете его в качестве зависимости, это же правило распространяется 
-на пакеты)
-* `$footer` **bool** - будет помечен для вывода в футере
+* `$handle` **string** - Asset key (if you provide existing key, corresponding asset will be replaced)
+* `$src` **string** - Path to file (URL)
+* `$dependency` **array|string** - Dependencies (identified by `$handle`. I.e. если you have asset `jquery` and 
+you need to use your script only after it is loaded, you can put `jquery` in dependencies. The same about packages)
+* `$footer` **bool** - will be marked to print include in footer (rather than in header)
 
 #### `css`
-Добавление css файла.
+Add css file.
 
 ```php
 static::css(string $handle, string $src, array|string $dependency = null, array $attributes = []): return $this
 ```
 
-##### Аргументы
-* `$handle` **string** - Ключ ассета (При указании существующего ключа, будет заменен существующий ассет)
-* `$src` **string** - Путь до фала (URL)
-* `$dependency` **array|string** - Зависимости (Зависимости определяются по ключу в `$handle`. Т.е. если у вас подключен `jquery` и 
-вам необходимо подключить свой скрипт только после него, то вы указываете его в качестве зависимости, это же правило распространяется 
-на пакеты)
-* `$attributes` **array** - Дополнительные атрибуты (`['rel' => 'stylesheet', 'media' => 'all']`)
+##### Arguments
+* `$handle` **string** - Asset key (if you provide existing key, corresponding asset will be replaced)
+* `$src` **string** - Path to file (URL)
+* `$dependency` **array|string** - Dependencies (identified by `$handle`. I.e. если you have asset `jquery` and 
+you need to use your script only after it is loaded, you can put `jquery` in dependencies. The same about packages)
+* `$footer` **bool** - will be marked to print include in footer (rather than in header)
+* `$attributes` **array** - Additional attributes (`['rel' => 'stylesheet', 'media' => 'all']`)
