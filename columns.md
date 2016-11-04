@@ -380,58 +380,59 @@ class Users extend Model {
 }
 ```
 
-Также для корректности отображения записей в таблице не забывайте при выводе сортировать записи по этому полю `->orderBy('order', 'asc')`
+Don't forget to sort records by this field to display table correctly on output `->orderBy('order', 'asc')`
 
-<a name="control"></a>    
+<a name="control"></a>
 ## Control
 `SleepingOwl\Admin\Display\Column\Control`
 
-Данный элемент используется в табличном выводе для отображения кнопок действий связанных с элементом таблицы. Данный элемент добавляется автоматически ко всем элементам таблицы и предоставляет следующие дейтсвия
- - Редактирование элемента
- - Удаление
- - Восстановление
+This element is used in table view to display action buttons, related to table element. 
+It is added to all table elements automatically and provides following actions:
+ - Edit element
+ - Delete
+ - Restore
  
-**Получение доступа к данном элементу**
+**Access current element**
 ```php
 $display = AdminDisplay::table()->...;
  
 $display->getColumns()->getControlColumn(); // return SleepingOwl\Admin\Display\Column\Control
 ```
-При необходимости вы можете добавлять в таблицу ндополнительные действия над элементом:
+If needed, you can add more actions performed to element:
 ```php
 $control = $display->getColumns()->getControlColumn();
 
 $link = new \SleepingOwl\Admin\Display\ControlLink(function (\Illuminate\Database\Eloquent\Model $model) {
-   return 'http://localhost/'.$model->getKey(); // Генерация ссылки
+   return 'http://localhost/'.$model->getKey(); // Generate link
 }, 'Button text', 50);
 
 $control->addButton($link);
 
 $button = new \SleepingOwl\Admin\Display\ControlButton(function (\Illuminate\Database\Eloquent\Model $model) {
-   return 'http://localhost/delete/'.$model->getKey(); // Генерация ссылки
+   return 'http://localhost/delete/'.$model->getKey(); // Generate link
 }, 'Button text', 50);
 
-// Изменение метода сабмита формы кнопки
+// Change method of form submit button
 $button->setMethod('delete');
 
-// Скрытие текста из кнопки
+// Hide text from button
 $button->hideText();
 
-// Добавление иконки
+// Set icon
 $button->setIcon('fa fa-trash');
 
-// Дополнительные HTML атрибуты для кнопки
+// Additional HTML attributes for button
 $button->setHtmlAttribute('class', 'btn-danger btn-delete');
 
-// Условие видимости кнопки (не обязательно)
+// Button visibility condition (optional)
 $button->setCondition(function(\Illuminate\Database\Eloquent\Model $model) {
    return auth()->user()->can('delete', $model);
 });
 
 $control->addButton($button);
 ```
-**На данный момент существует два класса кнопок** 
- - `SleepingOwl\Admin\Display\ControlButton` - кнопка внутри формы для сабмита
- - `SleepingOwl\Admin\Display\ControlLink` - кнопка ссылка
+**At present moment there are two button classes** 
+ - `SleepingOwl\Admin\Display\ControlButton` - submit button inside form
+ - `SleepingOwl\Admin\Display\ControlLink` - link button
  
- Также вы можете добавлять свои классы кнопок, реализовав инттерфейс `SleepingOwl\Admin\Contracts\Display\ControlButtonInterface`
+ To add your own button classes, by implementing interface `SleepingOwl\Admin\Contracts\Display\ControlButtonInterface`
