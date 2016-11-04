@@ -1,9 +1,10 @@
-# Фильтры данных
-Расширение [отображения данных](displays.md) 
+# Data filters
+Extension of [Data displays](displays.md) 
 
-Используются для фильтрации списка данных на основе параметров запроса. Являются разновидностью фильтрации данных, без использования формы.
+Used to filter data by query parameters. It's a variation of data filters without form.
 
-Т.е., например, у вас есть таблица с новостями из различных категорий (`category_id`) и вы хотите отобразить новости из определенной категории:
+I.e., let's say we have a news table with different categories (`category_id`) 
+and you want to display data from a particular category:
 
 ```php
 $display = AdminDisplay::table()
@@ -11,28 +12,29 @@ $display = AdminDisplay::table()
         AdminDisplayFilter::field('category_id')->setTitle('Category ID [:value]')
     )
     ->setColumns(
-        AdminColumn::link('title', 'Заголовок'),
-        AdminColumn::link('category', 'Категория'),
-        AdminColumn::datetime('created_at', 'Дата публикации')->setWidth('150px')
+        AdminColumn::link('title', 'Title'),
+        AdminColumn::link('category', 'Category'),
+        AdminColumn::datetime('created_at', 'Publish date')->setWidth('150px')
     )->paginate(20);
 ```
 
-В этом примере показан простейший пример применения фильтра. И если теперь в бразуере указать `?category_id=1`, то при формировании запроса для выборки данных в него будет вставлено условие `where category_id = 1` и в заголовке таблицы будет отображена строка `Category ID [1]`
+This example shows basic filter usage. Now, if you put in browser's URL `?category_id=1`, 
+a query condition will be added to query `where category_id = 1` and table header will display string `Category ID [1]`.
 
-### Типы фильтров:
- - Фильтр по полю
- - Фильтр по [eloquent scopes](https://laravel.com/docs/5.2/eloquent#query-scopes)
- - Произвольный фильтр
+### Filters types:
+ - Field filter
+ - Scope filter *[eloquent scopes](https://laravel.com/docs/5.3/eloquent#query-scopes))
+ - Custom filter
 
-## API (Методы доступные во всех фильтрах)
+## API (Methods, implemented in all filters)
 
 #### setName
-Указание ключа поля, по которому будет производиться фильтрация
+Set key name, which will be used as field name to modify data query.
 
     SleepingOwl\Admin\Display\Filter\FilterBase::setName(string $name): return self
     
 #### setAlias
-Указание алиаса для поля, который будет использоваться вместо ключа поля для получение значения из запроса.
+Set alias name, which will be used to retrieve value from query.
 
     SleepingOwl\Admin\Display\Filter\FilterBase::setAlias(string $alias): return self
     
@@ -41,7 +43,9 @@ AdminDisplayFilter::field('category_id')->setAlias('category'); // ?category=1
 ```
 
 #### setTitle
-Указание заголовка в случае применении этого фильтра. Т.е. как только для фильтр сработает, над списком результатов будет выведен заголовок для фильтра, если сработало несколько фильтров, то заголовки будут разделены знаком ` | `
+Title, if this filter was applied. I.e. as soon, as filter was applied on top of 
+results list there will be a filter title. 
+If multiple filters were applied, they will be separated by ` | `
 
     SleepingOwl\Admin\Display\Filter\FilterBase::setTitle(\Closure|string $title): return self
     
@@ -56,7 +60,7 @@ AdminDisplayFilter::field('category_id')->setTitle(function($value) {
 ```
 
 #### setValue
-Принудительное указание значения для фильтрации. **При указании значения фильтр не будет обращаться к параметрам запроса**
+Force set value, applied to filter. **If you force value, filter will ignore value in query parameters**
 
     SleepingOwl\Admin\Display\Filter\FilterBase::setValue(mixed $value): return self
     
@@ -65,8 +69,8 @@ AdminDisplayFilter::field('category_id')->setTitle(function($value) {
 AdminDisplayFilter::field('category_id')->setValue(1);
 ```
 
-## Фильтр по полю
-Данный фильтр привязан к полю модели.
+## Filter by field
+This filter is bound to model field.
 
 ```php
 AdminDisplayFilter::field('category_id');
@@ -75,7 +79,7 @@ AdminDisplayFilter::field('category_id');
 ### API
 
 #### setOperator
-Указание оператора сравнения. Помимо обычного сравнения вы можете указать как именно фильтр должен проверять значение. 
+Set comparison operator. Instead of regular equality you can set, how filter should compare value. 
 
     SleepingOwl\Admin\Display\Filter\FilterBase::setOperator(string $operator): return self
     
@@ -104,8 +108,10 @@ AdminDisplayFilter::field('category_id');
 AdminDisplayFilter::field('category_id')->setOperator('in'); // ?category_id[]=1&category_id[]=2&category_id[]=5
 ```
 
-## Фильтр по [eloquent scopes](https://laravel.com/docs/5.2/eloquent#query-scopes)
-Этот фильтр будет применять `scope` к вашему запросу. Допустим вы выводите список новостей и хотитет иметь возможность фильтровать ваши записи по `scope`, который имеется в модели `App\Post`, с помощью которой вы формируете список.
+## Filter by [eloquent scopes](https://laravel.com/docs/5.3/eloquent#query-scopes)
+This filter will apply `scope` to your query. 
+Let's say, you have a news list, and you want to filter your records by `scope`, 
+defined in model `App\Post`, which you use to query list.
 
 ```php
 <?php
@@ -145,8 +151,8 @@ $display = AdminDisplay::table()
     );
 ```
 
-## Произвольный фильтр
-Используется в случае если вы хотите задать фильтр с произвольным запросом
+## Custom filter
+Can be used if you want to implement a filter by custom query
 
 ```php
 AdminDisplayFilter::custom('custom_filter')->setCallback(function($query, $value) {
