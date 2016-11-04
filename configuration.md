@@ -1,85 +1,88 @@
-# Конфигурация
+# Configuration
 
-[Команда install](command_install) публикует конфиг SleepingOwl Admin автоматически. Если вы хотите опубликовать конфиг вручную выполните эту команду:
+[Installation command](command_install) publishes SleepingOwl Admin config automatically. 
+If you want to publish config manually, execute this command:
 
 ```bash
 $ php artisan vendor:publish --provider="SleepingOwl\Admin\Providers\SleepingOwlServiceProvider" --tag="config"
 ```
 
-## Параметры конфигурации
+## Configuration parameters
 
 #### `title`
 
-Строка для отображения в заголовке страницы.
+String to display in browser title.
 
 #### `logo`
 
-Логотип отображаемый в верхней панели
+Logo in top bar panel.
 
 #### `logo_mini`
 
-Логотип отображаемый в верхней панели при минимизированной боковой панели
+Logo in top bar panel, when left bar is minimized. 
 
 #### `url_prefix`
 
-Префикс адреса для административного модуля.
+Administrative module URL prefix.
 
-По умолчанию: `admin`
+Default: `admin`
 
 #### `middleware`
 
-Middleware, который ограничивают административный модуль от доступа неавторизованных пользователей.
+Middleware, restricting unauthorized access to administrative module.
 
-По умолчанию: `['web', 'auth']`
+Default: `['web', 'auth']`
 
 #### `auth_provider`
 
-Провайдер отвечающий за авторизацию пользователей. Подробнее https://laravel.com/docs/5.2/authentication#adding-custom-user-providers
+Users authorization provider. See more: https://laravel.com/docs/5.3/authentication#adding-custom-user-providers
 
-По умолчанию: `users`
+Default: `users`
 
 #### `bootstrapDirectory`
 
-Путь к директории автозапуска SleepingOwl Admin. Располагайте там ваши конфигурацию моделей, конфигурацию меню, кастомные столбцы и элементы форм. Каждый `.php` файл в этой директории будет подключен.
+SleepingOwl Admin bootstrap directory. 
+Put here your module configuration, menu configuration, custom columns and forms. 
+Each `.php` file from this directory will be loaded.
 
-По умолчанию: `app_path('Admin')`
+Default: `app_path('Admin')`
 
 #### `imagesUploadDirectory`
 
-Путь к директории изображений. Относительно вашей public директории.
+Path to uploaded images directory. Relative to your `public` directory.
 
-По умолчанию: `'images/uploads'`
+Default: `'images/uploads'`
 
 #### `filesUploadDirectory`
 
-Путь к директории файлов. Относительно вашей public директории.
+Path to uploaded files directory. Relative to your `public` directory.
 
-По умолчанию: `'files/uploads'`
+Default: `'files/uploads'`
 
 #### `template`
 
-Класс используемого шаблона (должен быть наследован от `SleepingOwl\Admin\Contracts\TemplateInterface`)
+Active template class (should be inherited from `SleepingOwl\Admin\Contracts\TemplateInterface`)
 
-По умолчанию: `SleepingOwl\Admin\Templates\TemplateDefault::class`
+Default: `SleepingOwl\Admin\Templates\TemplateDefault::class`
 
 #### `datetimeFormat`, `dateFormat`, `timeFormat`
 
-Формат даты и времени для использования в столбцах и элементах формы по умолчанию
+Date and time format, used by default in columns and form elements.
 
-По умолчанию: `'d.m.Y H:i', 'd.m.Y', 'H:i'`
+Default: `'d.m.Y H:i', 'd.m.Y', 'H:i'`
 
 #### `wysiwyg`
 
-Настройки для редакторов текста по умолчанию.
+Default rich text editor settings.
 
 #### `datatables`
 
-Настройки datatables по умолчанию
+datatables default settings
 
 #### `breadcrumbs`
 
-Включение/отключение хлебных крошек
+On / off breadcrumbs
 
 #### `aliases`
 
-Алиасы, которые инициализируются пакетом. 
+Aliases, initialized by package. 

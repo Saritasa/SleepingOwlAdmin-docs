@@ -1,32 +1,34 @@
-# Установка
+# Installation
 
-Используйте эту команду для начальной конфигурации SleepingOwl Admin. Она создаст все необходимые файлы и директории.
+Use this command for initial SleepingOwl Admin configuration. It will create all necessary files and directories.
 
-## Использование
+## Use
 
 ```bash
 $ php artisan sleepingowl:install
 ```
 
-## Что делает эта команда
+## What it does
 
- - Публикует конфигурацию SleepingOwl Admin.
- - Публикет ассеты из SleepingOwl Admin в `public/packages/sleepingowl/default`.
+ - Publish SleepingOwl Admin config.
+ - Publish assets from SleepingOwl Admin to `public/packages/sleepingowl/default`.
    ```bash
-   $ php artisan vendor:publish --tag=assets --force`
+   $ php artisan vendor:publish --tag=assets --force
    ```
    
- - Создает директорию автозапуска (По умолчанию `app/Admin`).
- - Создает файл конфигурации меню по умолчанию. (По умолчанию `app/Admin/navigation.php`)
- - Создает файл автозапуска по умолчанию. (По умолчанию `app/Admin/bootstrap.php`)
- - Создает файл роутов по умолчанию. (По умолчанию `app/Admin/routes.php`)
- - Создает структуру директории public (*создает директорию `images/uploads`*)
- - Создает [сервис провайдер](model_configuration_section.md) `app\Providers\AdminSectionsServiceProvider` 
+ - Create bootstrap directory (by default `app/Admin`).
+ - Create default menu configuration file. (by default `app/Admin/navigation.php`)
+ - Create default bootstrap file. (by default `app/Admin/bootstrap.php`)
+ - Create default routes file. (Поby default `app/Admin/routes.php`)
+ - Create public directory structure (*создает директорию `images/uploads`*)
+ - Create [Service Provider](model_configuration_section.md) `app\Providers\AdminSectionsServiceProvider` 
 
 ---
 
 # Обновление
 
-Обновление пакета происходит средствами composer. 
+Package update should be performed by composer. 
 
-**Иногда обновления затрагивают также и ассеты, что требует удаления содержимого директории** `public/packages/sleepingowl/default`. **Не желательно в этой директории хранить пользовательский скрипты.** 
+**Sometimes updates contain assets, which requires to delete** 
+`public/packages/sleepingowl/default`.
+**It's not recommended to store custom scripts in this directory.** 
