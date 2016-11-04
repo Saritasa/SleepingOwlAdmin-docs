@@ -1,3 +1,3 @@
-# Руководство по участию в разработке
+# Contributions manual
 
-В разработке.
+Under construction.

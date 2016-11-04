@@ -1,16 +1,16 @@
-# Типы отображения данных
+# Data display types
 
 
-## Таблица (Table)
-Таблицы предназначены для вывода списка документов раздела.
+## Table
+Tables are used to display list of section documents.
 
-На данные момент поддерживаются следующие типы вывода данных:
- - `AdminDisplay::table()` - обычная таблица (`SleepingOwl\Admin\Display\DisplayTable`)
- - `AdminDisplay::datatables()` - таблица с выводом данных используя плагин https://datatables.net/ (`SleepingOwl\Admin\Display\DisplayDatatables`)
+At present moment following list display types are supported:
+ - `AdminDisplay::table()` - ordinary table (`SleepingOwl\Admin\Display\DisplayTable`)
+ - `AdminDisplay::datatables()` - table data output, using plugin https://datatables.net/ (`SleepingOwl\Admin\Display\DisplayDatatables`)
  - `AdminDisplay::datatablesAsync()` (`SleepingOwl\Admin\Display\DisplayDatatablesAsync`)
- - `AdminDisplay::tree()` - вывод данных в виде дерева (`SleepingOwl\Admin\Display\DisplayTree`)
+ - `AdminDisplay::tree()` - output data as tree (`SleepingOwl\Admin\Display\DisplayTree`)
 
-**Пример использования:**
+**Usage example:**
 ```php
 $model->onDisplay(function () {
     $display = AdminDisplay::table();
@@ -21,10 +21,10 @@ $model->onDisplay(function () {
 });
 ```
 
-### Указание столбцов (Расширение)
+### Configure columns (Extension)
 `SleepingOwl\Admin\Display\Extension\Columns`
 
-Типы столбцов и их описание можно посмотреть [здесь](columns.md)
+You can read [here](columns.md) about column types and their descriptions.
 
 ```php
 $display->setColumns([
@@ -41,7 +41,8 @@ $display->getColumns()->push(
 );
 ```
 
-### Фильтры столбцов (Расширение)
+### Column filters (Extension)
+You can read [here](columnfilters.md) about column filter types.
 `SleepingOwl\Admin\Display\Extension\ColumnFilters`
 
 ```php
@@ -59,16 +60,16 @@ $display->getColumnFilters()->push(
 ```
 
 ### Eager Loading
-Позволяет оптимизировать запросы к БД в случае использования связей с другими моделями. [Подробности](https://laravel.com/docs/5.2/eloquent-relationships#eager-loading)
+Optimized DB queries, in case you use related models. [See more](https://laravel.com/docs/5.3/eloquent-relationships#eager-loading)
 
 ```php
 $display->with('country', 'companies');
 ```
 
-### Изменение запроса (Расширение)
+### Query modification (Extension)
 `SleepingOwl\Admin\Display\Extension\Apply`
 
-Вы можете изменять запрос по желанию
+You can modify query, if you need
 
 ```php
 $display->setApply(function ($query) {
@@ -92,10 +93,10 @@ $display->getApply()->push(function ($query) {
 });
 ```
 
-### Применение scope (Расширение)
+### Applying scopes (Extension)
 `SleepingOwl\Admin\Display\Extension\Scopes`
 
-Вы можете применить [Eloquent scopes](https://laravel.com/docs/5.2/eloquent#query-scopes) к выводимым данным:
+You can apply [Eloquent scopes](https://laravel.com/docs/5.3/eloquent#query-scopes) to data output:
 
 ```php
 $display->setScopes('last');
@@ -109,10 +110,10 @@ $display->setScopes(['last', 'trashed']);
 $display->getScopes()->push('last');
 ```
 
-### Действия над документами Actions (Расширение)
+### Document Actions (Extension)
 `SleepingOwl\Admin\Display\Extension\Actions`
 
-Использует тип колонки таблицы [Action](columns.md#action)
+Use [Action](columns.md#action) column type
 
 ```php
 $table = AdminDisplay::table()
@@ -124,7 +125,7 @@ $table = AdminDisplay::table()
         ...
     ]);
 
-// Изменить разсположение положения кнопок на странице
+// Change buttons placement on page
 $table->getActions()
     ->setPlacement('panel.buttons')
     ->setHtmlAttribute('class', 'pull-right');
@@ -132,46 +133,46 @@ $table->getActions()
 
 # Api
 
-В классах таблиц используется трейт:
- - [HtmlAttributes](html_attributes.md), с помощью которого для них можно настраивать HTML атрибуты.
- - [Assets](assets_trait.md), с помощью которого для них можно подключать ассеты.
+Table classes use traits:
+ - [HtmlAttributes](html_attributes.md), to configure HTML attributes.
+ - [Assets](assets_trait.md), to include assets.
 
-## Методы доступные во всех типах
+## Methods available in all types
 
 #### extend
-Добавление нового расширения к виду
+Add new extension to view
 
     SleepingOwl\Admin\Display\Display::extend(string $name, \SleepingOwl\Admin\Contracts\Display\DisplayExtensionInterface $extension): return $extension
 
 #### getExtensions
-Получение списка всех расширений
+Get list of all extensions
 
     SleepingOwl\Admin\Display\Display::getExtensions() return \Illuminate\Support\Collection|array<mixed,\SleepingOwl\Admin\Contracts\Display\DisplayExtensionInterface>
     
 #### with
-[Eager loading](https://laravel.com/docs/5.2/eloquent-relationships#eager-loading)
+[Eager loading](https://laravel.com/docs/5.3/eloquent-relationships#eager-loading)
 
     SleepingOwl\Admin\Display\Display::with(array|array<mixed,string> $relations): return self
     
 #### setTitle
-Указание заголовка для таблиц
+Set title for table
 
     SleepingOwl\Admin\Display\Display::setTitle(string $title): return self
     
 #### setView
-Изменения шаблона вывода данных
+Change data output template
 
     SleepingOwl\Admin\Display\Display::setView(string|\Illuminate\View\View $view): return self
     
 ```php
 $table->setView(view('display.custom.table.view'));
 
-// Будет произведен поиск по пути sleeping_owl::default.display.custom.table.view
+// Will search in path sleeping_owl::default.display.custom.table.view
 $table->setView('display.custom.table.view');
 ```
 
 #### getActions
-Получение объекта расширения
+Get extension object
 
     SleepingOwl\Admin\Display\Display::getActions(): return SleepingOwl\Admin\Display\Extension\Actions
 
@@ -182,7 +183,7 @@ $actions->setHtmlAttribite('class', 'custm-class');
 
 $actions->push(AdminColumn::action());
 
-// Установка места вывода кнопок
+// Set columns placement
 $actions->setPlacement(...);
 ```
 
@@ -192,7 +193,7 @@ $actions->setPlacement(...);
 
 
 #### getApply
-Получение объекта расширения
+Get extension object
 
     SleepingOwl\Admin\Display\Display::getApply(): return SleepingOwl\Admin\Display\Extension\Apply
     
@@ -202,7 +203,7 @@ $actions->setPlacement(...);
     
 
 #### getScopes
-Получение объекта расширения
+Get extension object
 
     SleepingOwl\Admin\Display\Display::getScopes(): return SleepingOwl\Admin\Display\Extension\Scopes
     
@@ -211,7 +212,7 @@ $actions->setPlacement(...);
     SleepingOwl\Admin\Display\Display::setScopes(array|...(string|array)): return self
 
 #### getFilters
-Получение объекта расширения
+Get extension object
 
     SleepingOwl\Admin\Display\Display::getFilters(): return SleepingOwl\Admin\Display\Extension\Filters
     
@@ -220,7 +221,7 @@ $actions->setPlacement(...);
     SleepingOwl\Admin\Display\Display::setFilters(array|...SleepingOwl\Admin\Contracts\FilterInterface): return self
     
 #### setRepositoryClass
-Переопределение класса репозитория. (Класс должен реализовывать интерфейс `SleepingOwl\Admin\Contracts\RepositoryInterface`)
+Chane repository class. (Class must implement interface `SleepingOwl\Admin\Contracts\RepositoryInterface`)
 
     SleepingOwl\Admin\Display\Display::setRepositoryClass(string $repository): return self
     
