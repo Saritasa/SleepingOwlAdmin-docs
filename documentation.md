@@ -1,24 +1,24 @@
-- Введение  
-  - [Версии пакета](releases)
-  - [Руководство по обновлению](upgrade)
-  - [Участие в разработке](contributions)
-- C чего начать
-	- [Установка](installation)
-	- [Конфигурация](configuration)
-	- [Конфигурация меню](menu_configuration)
-	- [Конфигурация модели](model_configuration)
-	- [Конфигурация роутов](routes_configuration)
-	- [Авторизация](authentication)
-	- [Локализация](localization)
-	- [Валидация](validation)
-- Команды
-	- [Установка](command_install)
-- Ключевые понятия
-	- [Типы отображения данных](displays)
-	- [Фильтры](filters)
-	- [Столбцы](columns)
-	- [Фильтры столбцов](columnfilters)
-	- [Формы](form)
-	- [HTML атрибуты](html_attributes)
-- Прочее
-  - [Вопрос-ответ](faq)
+- Introduction  
+  - [Release versions](releases)
+  - [Upgrade manual](upgrade)
+  - [Contributions](contributions)
+- Quick Start
+	- [Installation](installation)
+	- [Configuration](configuration)
+	- [Menu configuration](menu_configuration)
+	- [Model configuration](model_configuration)
+	- [Routes configuration](routes_configuration)
+	- [Authorization](authentication)
+	- [Localization](localization)
+	- [Validation](validation)
+- Commands
+	- [Install](command_install)
+- Key concepts
+	- [Display types](displays)
+	- [Filters](filters)
+	- [Columns](columns)
+	- [Column filters](columnfilters)
+	- [Forms](form)
+	- [HTML attributes](html_attributes)
+- Other
+  - [F.A.Q.](faq)
