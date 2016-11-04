@@ -1,85 +1,87 @@
-# Фильтры столбцов
+# Column filters
 
-Фильтры столбцов используются для фильтрации списка. 
+Column filters are used to filter out lists. 
 
-В случае с `AdminDisplay::datatables()` поиск производится через API библиотеки `datatable`.
+In case of using `AdminDisplay::datatables()` search is executed, using library `datatable`.
 
-**Пример использования:**
+**Usage example:**
 
 ```php
 $display = AdminDisplay::datatables();
 
 $display->setColumnFilters([
-  null, // Не ищем по первому столбцу
+  null, // Do not search by first column
   
-  // Поиск текста
+  // Text search
   AdminColumnFilter::text()->setPlaceholder('Full Name'),
   
-  // Поиск по диапазону 
+  // Search by value range
   AdminColumnFilter::range()->setFrom(
       AdminColumnFilter::text()->setPlaceholder('From')
   )->setTo(
       AdminColumnFilter::text()->setPlaceholder('To')
   ),
   
-  // Поиск по диапазону дат
+  // Serch by date range
   AdminColumnFilter::range()->setFrom(
       AdminColumnFilter::date()->setPlaceholder('From Date')->setFormat('d.m.Y')
   )->setTo(
       AdminColumnFilter::date()->setPlaceholder('To Date')->setFormat('d.m.Y')
   ),
   
-  // Поиск по выпадающему списку значений
+  // Search by dropdown list values
   AdminColumnFilter::select()->setPlaceholder('Country')->setModel(new Country)->setDisplay('title')
 ]);
 ```
 
-**При указании столбцов необходимо, чтобы кол-во столбцов поиска соответствовало кол-ву столбцов в таблице (если поиск по определенному столбцу не нужен, то необходимо передать `null`) и была соблюдена последовательность**
+**When you list column filters, number of search definitions must match table columns 
+(if you don't need search by one of columns, you should pass `null` as corresponding placeholder) 
+and order should be the same**
 
 # API
 
-В классах фильтров столбцов используется трейт:
- - [HtmlAttributes](html_attributes.md), с помощью которого для них можно настраивать HTML атрибуты.
- - [Assets](assets_trait.md), с помощью которого для них можно подключать ассеты.
+Column filter classes use traits:
+ - [HtmlAttributes](html_attributes.md), to configure HTML attributes.
+ - [Assets](assets_trait.md), to include assets.
 
-## Методы доступные во всех фильтрах
+## Methods, available in all filters
 
 ### setOperator
-Указание оператора, который будет использован при фильтрации. По умолчанию `equal`
+Operator, used in filtering operation. Default: `equal`
 
 ```php
   static::setOperator(string $operator): return self
 ```
 
-#### Список доступных операторов сравнения:
+#### List of applicable comparison operators:
 
-  - `SleepingOwl\Admin\Contracts\FilterInterface::EQUAL = equal` - равно
-  - `SleepingOwl\Admin\Contracts\FilterInterface::NOT_EQUAL = not_equal` - не равно
-  - `SleepingOwl\Admin\Contracts\FilterInterface::LESS = less` - меньше
-  - `SleepingOwl\Admin\Contracts\FilterInterface::LESS_OR_EQUAL = less_or_equal` - меньше или равно
-  - `SleepingOwl\Admin\Contracts\FilterInterface::GREATER = greater` - больше
-  - `SleepingOwl\Admin\Contracts\FilterInterface::GREATER_OR_EQUAL = greater_or_equal` - больше или равно
-  - `SleepingOwl\Admin\Contracts\FilterInterface::BEGINS_WITH = begins_with` - начинается с
-  - `SleepingOwl\Admin\Contracts\FilterInterface::NOT_BEGINS_WITH = not_begins_with`- не начинается с
-  - `SleepingOwl\Admin\Contracts\FilterInterface::CONTAINS = contains` - содержит
-  - `SleepingOwl\Admin\Contracts\FilterInterface::NOT_CONTAINS = not_contains` - не содержит
-  - `SleepingOwl\Admin\Contracts\FilterInterface::ENDS_WITH = ends_with` - заканчивается на
-  - `SleepingOwl\Admin\Contracts\FilterInterface::NOT_ENDS_WITH = not_ends_with` - не заканчивается на
-  - `SleepingOwl\Admin\Contracts\FilterInterface::BETWEEN = between` - между (значения указываются через `,`)
-  - `SleepingOwl\Admin\Contracts\FilterInterface::NOT_BETWEEN = not_between` - не между (значения указываются через `,`)
-  - `SleepingOwl\Admin\Contracts\FilterInterface::IN = in` - одно из (значения указываются через `,`)
-  - `SleepingOwl\Admin\Contracts\FilterInterface::NOT_IN = not_in` - не одно из (значения указываются через `,`)
+  - `SleepingOwl\Admin\Contracts\FilterInterface::EQUAL = equal` - equality
+  - `SleepingOwl\Admin\Contracts\FilterInterface::NOT_EQUAL = not_equal` - not equal
+  - `SleepingOwl\Admin\Contracts\FilterInterface::LESS = less` - less
+  - `SleepingOwl\Admin\Contracts\FilterInterface::LESS_OR_EQUAL = less_or_equal` - less or equal
+  - `SleepingOwl\Admin\Contracts\FilterInterface::GREATER = greater` - greater
+  - `SleepingOwl\Admin\Contracts\FilterInterface::GREATER_OR_EQUAL = greater_or_equal` - greater or equal
+  - `SleepingOwl\Admin\Contracts\FilterInterface::BEGINS_WITH = begins_with` - string begins with
+  - `SleepingOwl\Admin\Contracts\FilterInterface::NOT_BEGINS_WITH = not_begins_with`- string does not begin with
+  - `SleepingOwl\Admin\Contracts\FilterInterface::CONTAINS = contains` - string contains
+  - `SleepingOwl\Admin\Contracts\FilterInterface::NOT_CONTAINS = not_contains` - string does not contain
+  - `SleepingOwl\Admin\Contracts\FilterInterface::ENDS_WITH = ends_with` - string ends with
+  - `SleepingOwl\Admin\Contracts\FilterInterface::NOT_ENDS_WITH = not_ends_with` - string does not end with
+  - `SleepingOwl\Admin\Contracts\FilterInterface::BETWEEN = between` - between (values are listed over `,`)
+  - `SleepingOwl\Admin\Contracts\FilterInterface::NOT_BETWEEN = not_between` - not between (values are listed over `,`)
+  - `SleepingOwl\Admin\Contracts\FilterInterface::IN = in` - one of (values are listed over `,`)
+  - `SleepingOwl\Admin\Contracts\FilterInterface::NOT_IN = not_in` - not one of (values are listed over `,`)
 
 
 ## Text
-Фильтрация данных по строке
+Filter data by text string
 
 ```php
 AdminColumnFilter::text()->setPlaceholder('Full Name')->setOperator(\SleepingOwl\Admin\Contracts\FilterInterface::CONTAINS)
 ```
 
 ### setPlaceholder
-Указание плейсхолдера для поля.
+Set a placeholder for an input.
 
 ```php
   static::setPlaceholder(string $placeholder): return self
@@ -87,57 +89,57 @@ AdminColumnFilter::text()->setPlaceholder('Full Name')->setOperator(\SleepingOwl
 
 
 ## Date
-Фильтрация данных по дате
+Filter data by date
 
 ```php
 AdminColumnFilter::date()->setPlaceholder('Date')->setFormat('d.m.Y')
 ```
 
 ### setFormat
-Указание формата даты в которой приходит дата из инпута
+Set date filter, which is expected in input field
 
 ```php
   static::setFormat(string $format): return self
 ```
 
 ### setPickerFormat
-Указание формата даты отображаемой в инпуте и понятной для Javascript
+Set date picker format, used in input, and valid for Javascript
 
 ```php
   static::setPickerFormat(string $pickerFormat): return self
 ```
 
 ### setSearchFormat
-Указание формата даты в котором данные хранятся в БД
+Set date format, used to store and search date in DB
 
 ```php
   static::setSearchFormat(string $searchFormat): return self
 ```
 
 ### setWidth
-Ширина инпута
+Input field width
 
 ```php
   static::setWidth(int $width): return self
 ```
 
 ## Select
-Фильтрация данных по данным из выпадающего списка
+Filter data by drop down list values
 
 
 ## Range
-Фильтрация данных по диазону.
+Filter data by values range.
 
 
 ### setFrom
-Указание поля начала диапазона
+Set field for range start
 
 ```php
   static::setFrom(ColumnFilterInterface $from): return self
 ```
 
 ### setTo
-Указание поля конца диапазона
+Set field for range end
 
 ```php
   static::setTo(ColumnFilterInterface $from): return self
