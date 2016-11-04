@@ -1,12 +1,11 @@
-# Колонки таблицы
-Расширение [отображения данных](displays) 
+# Table columns
+[Data displays](displays) extending 
 
-- [Введение](#introduction)
-- [Методы доступные во всех элементах](#supported-types)
-- [Поддерживаемые типы](#supported-types)
-- [Заголовок столбца](#column-heading)
-- [Методы доступные во всех элементах](#all-methods)
-- Типы
+- [Introduction](#introduction)
+- [Supported display types](#supported-types)
+- [Column heading](#column-heading)
+- [Methods, supported in all elements](#all-methods)
+- Types
     - [Text](#text)
     - [DateTime](#datetime)
     - [Link](#link)
@@ -23,11 +22,12 @@
     - [Control](#control)
 
 <a name="introduction"></a>
-## Введение
+## Introduction
 
-Данные классы предназначены для добавления колонок в таблицу, а также вывод информации из модели в форме редактирования.
+These classes are intended for displaying data as table columns,
+and output model values in edit form.
 
-**Пример использования**
+**Usage example**
 
 ```php
 AdminDisplay::table()
@@ -44,12 +44,12 @@ AdminForm::panel()
     ])
 ```
 
-Класс `SleepingOwl\Admin\Display\TableColumn`, от которого наследуются
-все столбцы, реализует интерфейсы `Illuminate\Contracts\Support\Arrayable`,
-`Illuminate\Contracts\Support\Renderable` и `SleepingOwl\Admin\Contracts\Initializable`.
+Class `SleepingOwl\Admin\Display\TableColumn`, is base class for all columns
+implements interfaces `Illuminate\Contracts\Support\Arrayable`,
+`Illuminate\Contracts\Support\Renderable` and `SleepingOwl\Admin\Contracts\Initializable`.
 
 <a name="supported-types"></a>
-## Поддерживаемые типы
+## Supported display types
 
  - `AdminColumn::text($name, $label = null)`
  - `AdminColumn::datetime($name, $label = null)`
@@ -69,12 +69,12 @@ AdminForm::panel()
  - `AdminColumn::treeControl()`
 
 <a name="column-heading"></a>
-## Заголовок столбца
+## Column heading
 
-Каждый столбец таблицы имеет заголовок и хранится в виде отдельного класса
+Each table column has a header, represented by an individual object
 `SleepingOwl\Admin\Contracts\Display\TableHeaderColumnInterface`.
 
-**Пример работы с заголовком**
+**Example of header usage**
 
 ```php
 ...
@@ -85,7 +85,7 @@ AdminForm::panel()
     ]);
 ```
 
-**Или работая напрямую с класом заголовка**
+**Or direct header object usage**
 ```php
 ...
     ->setColumns([
@@ -104,28 +104,28 @@ AdminForm::panel()
 # API
 
 <a name="all-methods"></a>
-## Методы доступные во всех элементах
-В классах колонок используется трейт 
- - [HtmlAttributes](html_attributes.md), с помощью которого для них можно настраивать HTML атрибуты.
- - [Assets](assets_trait.md), с помощью которого для них можно подключать ассеты.
+## Methods, supported in all elements
+Columns class use traits 
+ - [HtmlAttributes](html_attributes.md), to configure HTML attributes.
+ - [Assets](assets_trait.md), to include assets.
 
 #### setLabel
-Установка заголовка колонки
+Seth column header text
 
     SleepingOwl\Admin\Display\TableColumn::setLabel(string $title): return self
 
 #### setName
-Установка ключа элемента
+Set column key
 
     SleepingOwl\Admin\Contracts\NamedColumnInterface::setName(string $name): return self
 
 #### setWidth
-Установка ширины колонки
+Set column width
 
     SleepingOwl\Admin\Display\TableColumn::setWidth(string $width): return self
 
 #### setView
-Установки view
+Set column view
 
     SleepingOwl\Admin\Display\TableColumn::setView(string|\Illuminate\View\View $view): return self
 
@@ -134,6 +134,7 @@ AdminForm::panel()
     SleepingOwl\Admin\Display\TableColumn::append(\SleepingOwl\Admin\Contracts\ColumnInterface $append): return self
 
 #### setOrderable
+If order by this column can be applied
 
     SleepingOwl\Admin\Display\TableColumn::setOrderable(boolean $orderable): return self
 
@@ -141,8 +142,8 @@ AdminForm::panel()
 ## Action 
 `SleepingOwl\Admin\Display\Column\Action`
 
-Данный элемент используется для добавления Кнопки совершения какого либо действия с данными таблицы.
-**Для работы элемента необходимо наличие поля `checkbox` в таблице**
+This element is used to add Button, executing some action on table data.
+**Needs a `checkbox` element in table, for this element to work**
 
 ```php
 $table = AdminDisplay::table()
@@ -154,50 +155,50 @@ $table = AdminDisplay::table()
         ...
     ]);
 
-// Изменить расположение кнопок на странице
+// Buttons placement on page
 $table->getActions()
     ->setPlacement('panel.buttons')
     ->setHtmlAttribute('class', 'pull-right');
 ```
 
 #### setTitle
-Установка названия кнопки
+Set button title
 
     SleepingOwl\Admin\Display\Column\Action::setTitle(string $title): return self
 
 #### setAction
-Установка ссылки, на которую будет отправлен запрос с выбранными элементами
+Set url, to which will be sent request, containing selected elements
 
     SleepingOwl\Admin\Display\Column\Action::setAction(string $action): return self
 
 #### setMethod
-Установка типа отправляемого запроса [POST, GET, ...]
+Set request type to send [POST, GET, ...]
 
     SleepingOwl\Admin\Display\Column\Action::setMethod(string $method): return self
 
 #### useGet
-Использовать GET запрос
+Use GET request method
 
     SleepingOwl\Admin\Display\Column\Action::useGet(): return self
 
 #### usePost
-Использовать POST запрос
+Use POST request method
 
     SleepingOwl\Admin\Display\Column\Action::usePost(): return self
 
 
 #### usePut
-Использовать PUT запрос
+Use PUT request method
 
     SleepingOwl\Admin\Display\Column\Action::usePut(): return self
 
 #### useDelete
-Использовать DELETE запрос
+Use DELETE request method
 
     SleepingOwl\Admin\Display\Column\Action::useDelete(): return self
 
 #### setIcon
-Установка иконки для кнопки
+Set icon for the button
 
     SleepingOwl\Admin\Display\Column\Action::setIcon(string $icon): return self
 
@@ -205,7 +206,7 @@ $table->getActions()
 ## Checkbox
 `SleepingOwl\Admin\Display\Column\Checkbox`
 
-Данный элемент предназначен для вывода чекбокса в таблице для выбора значений. Подробнее [Action](#action)
+This element is used to output checkbox column in table to select rows [Action](#action)
 
 ```php
 AdminColumn::checkbox(),
@@ -215,7 +216,7 @@ AdminColumn::checkbox(),
 ## Custom
 `SleepingOwl\Admin\Display\Column\Custom`
 
-Данный элемент используется для добавления кастомного кода в качестве колонки таблицы
+This element is used to add custom code as table column
 
 
 ```php
@@ -225,7 +226,8 @@ AdminColumn::custom(function(\Illuminate\Database\Eloquent\Model $model) {
 ```
 
 #### setCallback
-Установка анонимной функции, которая будет вызвана для каждого элемента таблицы, с передачей в качестве аргумента объекта `Illuminate\Database\Eloquent\Model`
+Set closure, which will be called for each table element, and get `Illuminate\Database\Eloquent\Model`
+instance as argument.
 
     SleepingOwl\Admin\Display\Column\Custom::setCallback(\Closure $callback): return self
 
@@ -233,14 +235,14 @@ AdminColumn::custom(function(\Illuminate\Database\Eloquent\Model $model) {
 ## DateTime
 `SleepingOwl\Admin\Display\Column\DateTime`
 
-Данный элемент предназначен для вывода даты с указанием формата
+This element is used to output date in provided format
 
 ```php
 AdminColumn::datetime('date', 'Date')->setFormat('d.m.Y')->setWidth('150px'),
 ```
 
 #### setFormat
-Указание формата даты
+Set date format
 
     SleepingOwl\Admin\Display\Column\DateTime::setFormat(string $format): return self
 
@@ -248,14 +250,14 @@ AdminColumn::datetime('date', 'Date')->setFormat('d.m.Y')->setWidth('150px'),
 ## Link
 `SleepingOwl\Admin\Display\Column\Link`
 
-Данный элемент предназначен для вывода данных модели в виде ссылки на текущий документ
+This element is used to output reference URL to current model.
 
 ```php
 AdminColumn::link('title', 'Title')->setLinkAttributes(['target' => '_blank']),
 ```
 
 #### setLinkAttributes
-Установка атрибутов для ссылки
+Set link element attributes
 
     SleepingOwl\Admin\Display\Column\Link::setLinkAttributes(array $linkAttributes): return self
 
@@ -263,14 +265,14 @@ AdminColumn::link('title', 'Title')->setLinkAttributes(['target' => '_blank']),
 ## RelatedLink
 `SleepingOwl\Admin\Display\Column\RelatedLink`
 
-Данный элемент предназначен для вывода данных модели в виде ссылки на документ связанного раздела
+This element is used to output reference URL to a related model.
 
 ```php
 AdminColumn::relatedLink('author.name', 'Author')
 ```
 
 #### setLinkAttributes
-Установка атрибутов для ссылки
+Set link element attributes
 
     SleepingOwl\Admin\Display\Column\Link::setLinkAttributes(array $linkAttributes): return self
 
@@ -279,14 +281,14 @@ AdminColumn::relatedLink('author.name', 'Author')
 ## URL
 `SleepingOwl\Admin\Display\Column\Url`
 
-Данный элемент предназначен для вывода значения поля в виде ссылки
+This element is used to output a field value as URL link
 
 ```php
 AdminColumn::url('title', 'Title'),
 ```
 
 #### setLinkAttributes
-Установка атрибутов для ссылки
+Set link element attributes
 
     SleepingOwl\Admin\Display\Column\Url::setLinkAttributes(array $linkAttributes): return self
     
@@ -294,7 +296,7 @@ AdminColumn::url('title', 'Title'),
 ## Text
 `SleepingOwl\Admin\Display\Column\Text`
 
-Данный элемент предназначен для вывода значения поля в виде обычного текста
+This element is used to output field value as plain text.
 
 ```php
 AdminColumn::text('title', 'Title'),
@@ -304,7 +306,8 @@ AdminColumn::text('title', 'Title'),
 ## Count
 `SleepingOwl\Admin\Display\Column\Count`
 
-Данный элемент предназначен для подсчета и вывода кол-ва элементов. Подсчет значений производится функцией `count`, т.е. передаваемое поле должно содержать массив элементов либо элемент с отношением `*Many`
+This element is used to count and output elements value. 
+Count executed by calling `count` function, i.e. provided field must be either an array field or contain an element with `*Many` reference.
 
 ```php
 AdminColumn::count('list', 'Total'),
@@ -314,7 +317,7 @@ AdminColumn::count('list', 'Total'),
 ## Email
 `SleepingOwl\Admin\Display\Column\Email`
 
-Данный элемент предназначен для вывода полей содержащих email адрес в виде ссылкы `<a href="mailto:"></a>`
+This element is used to output field, containing email address, as `<a href="mailto:"></a>` link.
 
 ```php
 AdminColumn::email('email', 'Email'),
@@ -324,14 +327,14 @@ AdminColumn::email('email', 'Email'),
 ## Image
 `SleepingOwl\Admin\Display\Column\Image`
 
-Данный элемент предназначен для вывода изображений
+This element is used to output an image
 
 ```php
 AdminColumn::image('avatar', 'Avatar'),
 ```
 
 #### setImageWidth
-Указание ширины изображения
+Set image width
 
     SleepingOwl\Admin\Display\Image::setImageWidth(string $width): return self
 
@@ -340,7 +343,7 @@ AdminColumn::image('avatar', 'Avatar'),
 ## Lists
 `SleepingOwl\Admin\Display\Column\Lists`
 
-Данный элемент предназначен для вывода списка значений поля содержащего массив элементов, либо связь с отношением `*Many`
+This element is used to output a field, containing array of values or a `*Many` relation
 
 ```php
 AdminColumn::lists('roles.title', 'Roles') // Вывод списка ролей из связанной таблицы
@@ -355,7 +358,10 @@ AdminColumn::lists('tags', 'Tags') // Вывод списка тегов из п
 ## Order
 `SleepingOwl\Admin\Display\Column\Order`
 
-Данный элемент предназначен для сортировки элементов таблицы. **Модель к которой применяется это поле должна содержать трейт `SleepingOwl\Admin\Traits\OrderableModel`**. По умолчанию, поле по которому производится сортировка - `order`. Для указания альтернативного ключа необходимо в модели добавить метод:
+This element is used to sort table elements. 
+**Applicable model should contain trait `SleepingOwl\Admin\Traits\OrderableModel`**. 
+By default, field against which sorting is performed - `order`. 
+To set alternative key, you should implement in your model method:
 
 ```php
 class Users extend Model {
