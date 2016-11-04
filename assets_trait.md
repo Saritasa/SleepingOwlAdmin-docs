@@ -1,8 +1,8 @@
 # Assets
 
-Данный trait используется для организации работы с подключением ассетов.
+This trait is used to plug in ассетов.
 
-Допустим у нас есть класс `Form\Element\Select`
+Let's say, we have class `Form\Element\Select`
 
 ```php
 class Select extends ... implements \SleepingOwl\Admin\Contracts\Initializable 
@@ -30,31 +30,31 @@ class Select extends ... implements \SleepingOwl\Admin\Contracts\Initializable
 }
 ```
 
-При подключении трейта класс инициализирует новый пакет через `PackageManager` с названием текущего класса, т.е. для класса
-выше это будет `PackageManager::add('Form\Element\Select')` и при вызове методов трейта `withPackage`, `addScript` и `addStyle` мы добавляем новые 
-ассеты в данный пакет.
+When we use trait, it initialises new package via `PackageManager` using current class name, i.e. for above class
+it will be `PackageManager::add('Form\Element\Select')` and when we call trait methods `withPackage`, `addScript` and `addStyle`
+we add new assets to this package.
 
-Как мы знаем метод `initialize` в классе `Form\Element\Select` будет вызван только в момент подключение элемента в форму, а 
-вместе с ним и ассеты.
+As we know, the `initialize` method in class `Form\Element\Select` will be called at embedding element into a form, 
+and assets will be added at that moment.
 
 ## API
 
 #### addStyle
-Добавленме css файла в пакет
+Add css file to package
 
 ```php
 static::addStyle(string $handle, string $style, array $attributes): return self
 ```
 
 #### addScript
-Добавленме js файла в пакет
+Add js file to package
 
 ```php
 static::addScript(string $handle, string $script, array $dependency): return self
 ```
 
 #### withPackage
-Подключение пакета
+Plug in existing package
 
 ```php
 static::withPackage(string|array $packages): return self
