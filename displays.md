@@ -230,17 +230,17 @@ Chane repository class. (Class must implement interface `SleepingOwl\Admin\Contr
 `SleepingOwl\Admin\Display\DisplayTable`
 
 #### setParameters
-Передача в URL кнопки создания новой записи дополнительных параметров
+Pass additional parameters to URL, invoked by new record button creation.
 
     SleepingOwl\Admin\Display\DisplayTable::setParameters(array $parameters): return self
     
 #### setParameter
-Передача в URL кнопки создания новой записи дополнительного параметра
+Pass additional parameter to URL, invoked by new record button creation.
 
     SleepingOwl\Admin\Display\DisplayTable::setParameter(string $key, mixed $value): return self
     
 #### paginate
-Вывод данных с постраничной навигацией
+Output list with pagination, set pagination parameters
 
     SleepingOwl\Admin\Display\DisplayTable::paginate(integer $perPage, string $pageName): return self
     
@@ -249,17 +249,17 @@ $table->paginate(20, 'custom_page');
 ```
     
 #### disablePagination
-Отключение постраничной навигации
+Disable paginated output
 
     SleepingOwl\Admin\Display\DisplayTable::disablePagination(): return self
 
 #### usePagination
-Проверка на использование постраничной навигации
+Check, if pagination is used.
 
     SleepingOwl\Admin\Display\DisplayTable::usePagination(): return boolean
     
 #### getColumns
-Получение объекта расширения
+Get extension object
 
     SleepingOwl\Admin\Display\DisplayTable::getColumns(): return SleepingOwl\Admin\Display\Extension\Columns
 
@@ -274,7 +274,7 @@ $columns->setView(...);
 ```
     
 #### setColumns
-Указание списка столбцов для выводимой таблицы. В качестве аргумента можно передать как массив колонок так и объект `SleepingOwl\Admin\Contracts\ColumnInterface`
+Set columns for table output. Argument can be array or `SleepingOwl\Admin\Contracts\ColumnInterface`
 
     SleepingOwl\Admin\Display\DisplayTable::setColumns(array|...SleepingOwl\Admin\Contracts\ColumnInterface): return self
     
@@ -289,7 +289,7 @@ $table->setColumns([
 ```
     
 #### getColumnFilters
-Получение объекта расширения
+Get extension object
 
     SleepingOwl\Admin\Display\DisplayTable::getColumnFilters(): return SleepingOwl\Admin\Display\Extension\ColumnFilters
     
@@ -309,12 +309,12 @@ $filters->setPlacement(...);
 `SleepingOwl\Admin\Display\DisplayDatatables`
 
 #### setDatatableAttributes
-Указание параметров для таблицы
+Set parameters for datatable
 
     SleepingOwl\Admin\Display\DisplayDatatables::setDatatableAttributes(array $datatableAttributes): return self
     
 #### setOrder
-Указание правила сортировки данных. https://datatables.net/examples/basic_init/table_sorting.html
+Set dataset sort order. https://datatables.net/examples/basic_init/table_sorting.html
 
     SleepingOwl\Admin\Display\DisplayDatatables::setOrder(array $order): return self
     
@@ -337,9 +337,12 @@ $display->setOrder([[1, 'asc']]);
 ## tree()
 `SleepingOwl\Admin\Display\DisplayTree`
 
-Используется для вывода данных в виде дерева с поддержкой сортировки (drag & drop). Данный вид поддерживает работу с https://github.com/etrepat/baum, https://github.com/lazychaser/laravel-nestedset, а также самый простой вариант, когда дерево строится на основе `parent_id` (Также в таблице должно быть поле `order` для сортировки)
+Used to output data as tree with sort support (drag & drop). 
+This view supports с https://github.com/etrepat/baum, https://github.com/lazychaser/laravel-nestedset, 
+And the simplest variant, when tree is built using `parent_id` (Table also should have `order` field for sorting).
 
-Данный клаас регистрирует роут `admin.display.tree.reorder`, который отвечает за сортировку данных. При необходимости вы можете перепределить данный роут в `app/Admin/routes.php`.
+This class registers route `admin.display.tree.reorder`, which is responsible for data sorting. 
+You can redefine this route in `app/Admin/routes.php`.
 
 ```php
 Route::post('{adminModel}/reorder', ['as' => 'admin.display.tree.reorder', function (ModelConfigurationInterface $model) {
@@ -353,20 +356,20 @@ Route::post('{adminModel}/reorder', ['as' => 'admin.display.tree.reorder', funct
 }]);
 ```
 
-**При добавлении дерева в таб может некорректно работать сортировка**
+**If tree is nested inside tab, sorting can work incorrectly**
 
 #### setValue
-Указание заголовка для документов
+Set documents title
 
     SleepingOwl\Admin\Display\DisplayTree::setValue(string $value): return self
     
 #### setParentField
-Указание ключа поля
+Set parent field
 
     SleepingOwl\Admin\Display\DisplayTree::setParentField(string $parentField): return self
     
 #### setOrderField
-Указание ключа поля
+Set order field
 
     SleepingOwl\Admin\Display\DisplayTree::setOrderField(string $orderField): return self
 
@@ -375,12 +378,12 @@ Route::post('{adminModel}/reorder', ['as' => 'admin.display.tree.reorder', funct
     SleepingOwl\Admin\Display\DisplayTree::setRootParentId(null|string $rootParentId): return self
     
 #### setParameters
-Передача в URL кнопки создания новой записи дополнительных параметров
+Pass additional parameters to URL, invoked by new record creation button.
 
     SleepingOwl\Admin\Display\DisplayTree::setParameters(array $parameters): return self
     
 #### setParameter
-Передача в URL кнопки создания новой записи дополнительного параметра
+Pass additional parameter to URL, invoked by new record creation button.
 
     SleepingOwl\Admin\Display\DisplayTree::setParameter(string $key, mixed $value): return self
     
@@ -389,29 +392,34 @@ Route::post('{adminModel}/reorder', ['as' => 'admin.display.tree.reorder', funct
     SleepingOwl\Admin\Display\DisplayTree::setReorderable(boolean $reorderable): return self
     
 #### getTree
-Получение объекта расширения (На данный момент не используется)
+Get extension object (not used now)
 
     SleepingOwl\Admin\Display\DisplayTree::getTree(): return SleepingOwl\Admin\Display\Extension\Tree
     
 #### setRepositoryClass
-Переопределение класса репозитория. (Класс должен реализовывать интерфейс `SleepingOwl\Admin\Contracts\TreeRepositoryInterface`)
+Change repository class. (Class must implement interface `SleepingOwl\Admin\Contracts\TreeRepositoryInterface`)
 
     SleepingOwl\Admin\Display\DisplayTree::setRepositoryClass(string $repository): return self
     
-# Расширение таблиц
-Класс `SleepingOwl\Admin\Display\Display` от которого наследуются все классы реализующие вывод данных позволяет расширять свое поведение за счет расширений. Расширения могут как влиять на вывод данных, модифицируя запрос перед получением списка записей из БД либо вывод HTML кода в шаблон.
+# Extending tables
+Class `SleepingOwl\Admin\Display\Display` inherited by all classes, 
+implementing data output, allows extend its behaviour with extensions. 
+Extensions can affect data retrieving, by modifying query builder before executing DB query,
+or modify HTML data output.
 
-Сейчас класс для вывода таблицы работает полностью за счет расширений, а именно, вызывая метод `setColumns` или `getColumns`, `setColumnFilters` или `getColumnFilters` вы обращаетесь к классам расширений.
+Now table data output class entirely relies upon extensions, in particular, when you call `setColumns` 
+or `getColumns`, `setColumnFilters` or `getColumnFilters` you call extension classes.
 
-#### Как использовать:
-Использовать расширения можно как при создании нового типа `Display`, так и с существующими типами.
+#### Usage:
+You can use extensions with new `Display` type, as well as with existing types.
 
-**Для работы расширений необходимо свой класс наследовать от `SleepingOwl\Admin\Display\Display`. Класс расширения должен реализовывать интерфейс `SleepingOwl\Admin\Contracts\Display\DisplayExtensionInterface`**
+**If you want extensions to work in your display, you must inherit `SleepingOwl\Admin\Display\Display`. 
+Extension class must be inherited from `SleepingOwl\Admin\Contracts\Display\DisplayExtensionInterface`**
 
-**Пример нового класса:**
+**New class example:**
 
 ```php
-// Новый класс
+// New display class
 namespace App\Display;
 
 class CustomDisplay extends \SleepingOwl\Admin\Display\Display 
@@ -428,33 +436,34 @@ class CustomDisplay extends \SleepingOwl\Admin\Display\Display
 }
 ```
 
-**Пример добавления расширения для существующего типа:**
+**Example of using extension with existing type:**
 
 ```php
 $display = AdminDisplay::table();
 $display->extend('custom_extension', new \App\Display\Extension\CustomExtension());
 ```
 
-После инициализации расширения работа с ним осуществлаяется следующим образом:
+After initialization you can call it this way:
 
 ```php
-// Получение объекта
+// Get extension object
 $table->getCustomExtension()->...
 
-// В случае если в классе расширения определен метод set(), возможна передача в него данных
+// If class implements method set(), you can pass data to it
 $table->setCustomExtension(...)
 ```
 
-Расширения делятся на два типа:
- - Модификация запроса 
- - Вывод HTML кода в шаблон Display
-    - При реализации интерфейса `Illuminate\Contracts\Support\Renderable` вывод будет выполнен в общем стеке расширений
-    - При реализации интерфейса `SleepingOwl\Admin\Contracts\Display\Placable` вывод будет выполнен в месте указанном в методе `getPlacement`
+Extensions can be of two types:
+ - Modify query 
+ - Modify HTML code template in Display
+    - If you implement interface `Illuminate\Contracts\Support\Renderable` output will be rendered in common extensions stack
+    - If you implement interface `SleepingOwl\Admin\Contracts\Display\Placable` output will be rendered in place, defined by `getPlacement` method
 
-### Модификация запроса
-По умолчанию любое расширение может модифицировать запрос, который выполняет класс Display перед выводом данных. В момент выполнения запроса происходит вызов метода `modifyQuery` во всех расширениях и передача в него объекта `\Illuminate\Database\Eloquent\Builder`.
+### Modify query
+By default any extension can modify query, executed by Display class before data output.
+Before query executing it calls each extension method `modifyQuery` and passes `\Illuminate\Database\Eloquent\Builder` object to it.
 
-**Пример**
+**Example**
 ```php
 public function modifyQuery(\Illuminate\Database\Eloquent\Builder $query)
 {
@@ -462,39 +471,42 @@ public function modifyQuery(\Illuminate\Database\Eloquent\Builder $query)
 }
 ```
 
-### Вывод HTML
+### HTML Output
 
-Если расширение реализует интерфейс `Illuminate\Contracts\Support\Renderable`, то будет произведен вывод расширения в общем стеке расширений, т.е. для всех расширений будет последовательно вызван метод `render` https://github.com/LaravelRUS/SleepingOwlAdmin/blob/development/resources/views/default/display/table.blade.php#L28
-Перед выводом происходит сортировка расширений по значению, взятому из метода `getOrder`
+If extension implements interface `Illuminate\Contracts\Support\Renderable`, extension rendering will be called in common stack, 
+i.e. `render` will be called for each extension sequentially. https://github.com/LaravelRUS/SleepingOwlAdmin/blob/development/resources/views/default/display/table.blade.php#L28
+Before rendering extensions are sorted by value of `getOrder`
 
-Если расширение реализует интерфейс `SleepingOwl\Admin\Contracts\Display\Placable`, то HTML код расширения будет помещен в определенном месте, указанном в методе `getPlacement`
+If extension implements interface `SleepingOwl\Admin\Contracts\Display\Placable`, 
+then extension HTML code will be rendered at certain place, defined by `getPlacement`
 
-Места, где можно разместить код реализованы через `@yield`
+Places, where you can place code, are implemented with `@yield`
 https://github.com/LaravelRUS/SleepingOwlAdmin/blob/development/resources/views/default/display/table.blade.php
 
-# Использование таблицы в форме 
-При необходимости таблицу можно использовать в форме для вывода связанных записей.
+# Using table in form
+If needed, table can be used in form to output related records.
 
-Допустим у нас есть галерея (раздел `Gallery`) и фотографии в ней (`Photo`). У каждой фотографии есть `category_id` - идентификатор категории. После создания категории, в форме редактирования нужна возможность добавлять фотографии в эту категорию.
+Let's say we have a gallery (section `Gallery`) and photos in it (`Photo`). Each photo has `category_id` - category identifier.
+After category created, edit form needs to add photos to this category.
 
 ```php
 // Create And Edit
 $model->onCreateAndEdit(function($id = null) {
 
     $form = AdminForm::panel()->addHeader(
-        AdminFormElement::text('title', 'Название галереи')->required(),
+        AdminFormElement::text('title', 'Gallery name')->required(),
     );
     
-    if (!is_null($id)) { // Если галерея создана и у нее есть ID
+    if (!is_null($id)) { // If gallery is created and has an ID
         $photos = AdminDisplay::table()
-            ->setModelClass(Photo::class) // Обязательно необходимо указать класс модели в которой хранятся фотографии
+            ->setModelClass(Photo::class) // You must provide a calss, implementing photos storage
             ->setApply(function($query) use($id) {
-                $query->where('category_id', $id); // Фильтруем список фотографий по ID галереи
+                $query->where('category_id', $id); // Filter photos by gallery ID
             })
-            ->setParameter('category_id', $id) // При нажатии на кнопку "добавить" - подставлять идентификатор галереи
+            ->setParameter('category_id', $id) // When you press "Add" button, set gallery ID
             ->setColumns(
-                AdminColumn::link('name', 'Назавние фотографии'),
-                AdminColumn::image('thumb', 'Фотгорафия')
+                AdminColumn::link('name', 'Photo name'),
+                AdminColumn::image('thumb', 'Preview')
                     ->setHtmlAttribute('class', 'text-center')
                     ->setWidth('100px')
             )
@@ -503,4 +515,3 @@ $model->onCreateAndEdit(function($id = null) {
     }
 });
 ```
-
