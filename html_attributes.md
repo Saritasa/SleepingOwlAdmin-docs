@@ -1,13 +1,12 @@
-# HTML атрибуты
+# HTML attributes
 
-Данный trait используется для организации работы с HTML атрибутами в классах. Это может пригодится, если вы создаете например класс,
-который на выходе будет преобразован в HTML и необходимо дать пользователю возможность указать css классы, идентификатор и другие атрибуты 
-для элемента.
+This trait is used to organize HTML manipulations in classes. This can be useful, for example, if you create a class
+which will be output to HTML and you must provide user ability to set css classes, identifier and other element attributes.
 
-Допустим у нас есть класс `TableColumn`, который преобразуется в `<td>{{ $value }}</td>` и вы хотите дать пользователю
-возможность указывать атрибуты, чтобы на выходе получить `<td class="bg-primary" id="row-3" data-value="test"></test>`
+Lets say we have a class `TableColumn`, which interpreted into `<td>{{ $value }}</td>` and you want to give user ability
+to set attributes to get output `<td class="bg-primary" id="row-3" data-value="test"></test>`
 
-Для этого классу необходимо подключить данный trait
+You should use this trait
 
 ```php
 <?php
@@ -44,7 +43,7 @@ class TableColumn implements Arrayable, Renderable
 <td {{ $attributes }}>{{ $value }}</td>
 ```
 
-И теперь можно данному классу можно назначать атрибуты
+Now you can set attributes to this class
 
 ```php
 $column = new TableColumn();
@@ -64,25 +63,25 @@ $column->setHtmlAttributes([
 
 // return <td class="bg-primary text-right" id="row-3" data-value="test">test</td>
 
-// Переопределение класса
+// Redefine CSS class
 $column->replaceHtmlAttribute('class', 'new-class');
 
 // return <td class="new-class" id="row-3" data-value="test">test</td>
 
-// Проверка на существование класса 
+// Check, if CSS class exists 
 $column->hasClassProperty('new-class'); // return true
 
-// Проверка на существование атрибута
+// Check, if attribute exists
 $column->hasHtmlAttribute('data-value'); // return true
 
-// Удаление атрибута
+// Remove attribute
 $column->removeHtmlAttribute('data-value');
 
-// Удаление всех атрибутов
+// Remove all attributes
 $column->clearHtmlAttributes();
 
 
-// Преобразование атрибутов в строку
+// Convert attributes to string
 $column->htmlAttributesToString();
 // return "class="new-class" id="row-3" data-value="test""
 ```
