@@ -1,6 +1,6 @@
-# Локализация
+# Localization
 
-SleepingOwl Admin использует локаль из конфигурации в вашем `config/app.php`.
+SleepingOwl Admin uses locale from your `config/app.php`.
 
 ```php
 /*
@@ -17,7 +17,7 @@ SleepingOwl Admin использует локаль из конфигураци�
 'locale' => 'ru',
 ```
 
-## Поддерживаемые локали
+## Supported locales (out of box)
 
  - en
  - ru
@@ -27,8 +27,9 @@ SleepingOwl Admin использует локаль из конфигураци�
  - pt-BR
  - zn-CN
 
-## Ваши собственные локали
+## Your own locales
 
-Вы можете добавить свою локализацию. Для этого создайте файл `resources/lang/vendor/sleeping_owl/{locale}/lang.php`, вставьте все из `vendor/laravelrus/sleepingowl/resource/lang/{locale}/lang.php` и сделайте необходимые изменения. 
+You can create your own locals. Create file `resources/lang/vendor/sleeping_owl/{locale}/lang.php`, 
+insert everything from `vendor/laravelrus/sleepingowl/resource/lang/{locale}/lang.php` and edit appropriately. 
 
-**Вы можете отправить мне вашу локализацию для включения ее в основной состав пакета.**
+**You can create pull request to merge your localization into main package.**

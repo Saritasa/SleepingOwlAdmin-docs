@@ -1,22 +1,22 @@
-# Установка
+# Installation
 
-Установить пакет можно помощью командной строки
+You can install package via command line command
 ```
  composer require "laravelrus/sleepingowl":"4.*@dev"
 ```
-или добавив строчку
+or add string
 ```
 "laravelrus/sleepingowl": "4.*@dev"
 ```
-в `composer.json` и запустить `composer update`
+into `composer.json` and execute `composer update`
 
-Далее нужно добавить сервис провайдер (Service Provider), в раздел `providers` файла `config/app.php`:
+Now you should add Service Provider, in `providers` section of file `config/app.php`:
 
 ```
 SleepingOwl\Admin\Providers\SleepingOwlServiceProvider::class,
 ```
 
-**Пример**
+**Example**
 ```php
     ...
     /*
@@ -31,6 +31,6 @@ SleepingOwl\Admin\Providers\SleepingOwlServiceProvider::class,
     ...
 ```
 
-После чего выполняем команду `php artisan sleepingowl:install`.
+Then run command `php artisan sleepingowl:install`.
 
-Все, инсталляция завершена, можно переходить к [настройке](configuration).
+Installation is complete, you can proceed to [configuration](configuration).
