@@ -1,17 +1,17 @@
-# Формы
+# Forms
 
-Используются для построения форм.
+Used to build HTML forms.
 
-На текущий момент существую следующие виды форм:
+At present time there are 3 form types implemented:
  - `AdminForm::form()`
- - `AdminForm::panel()` - в основе которой лежит [Bootstrap конпонент `panel`](http://getbootstrap.com/components/#panels)
- - `AdminForm::tabbed()` - для группировки элементов формы в табы
+ - `AdminForm::panel()` - based on [Bootstrap component `panel`](http://getbootstrap.com/components/#panels)
+ - `AdminForm::tabbed()` - groups forms and elements into tabs
 
 ## form
- * Класс `\SleepingOwl\Admin\Form\FormDefault`
+ * Class `\SleepingOwl\Admin\Form\FormDefault`
  * View `resources\views\default\form\default.blade.php`
 
-Данный тип формы выводит элементы без дизайна. При желании внешний вид формы можно настроит с помощью HTML атрибутов
+This form type renders elements without styles. You can adjust form look, using HTML attributes
 
 ```php
 $form = AdminForm::form()->setElements([
@@ -27,10 +27,11 @@ $form->getButtons()->setHtmlAttribute('class', 'panel-footer');
 ```
 
 ## panel
- * Класс `\SleepingOwl\Admin\Form\FormPanel`
+ * Class `\SleepingOwl\Admin\Form\FormPanel`
  * View `resources\views\default\form\panel.blade.php`
 
-Данный тип формы автоматически добавляет к форме html атрибут `class="panel panel-default"` и к кнопкам формы `class="panel-footer"` и позволяет размещать элементы формы в блоки `header`, `body`, `footer`
+This form type automatically adds to HTML attribute `class="panel panel-default"` to form `class="panel-footer"` to buttons
+and allows to place form elements into blocks `header`, `body`, `footer`.
 
 ```php
 $form = AdminForm::panel()
@@ -46,14 +47,15 @@ $form = AdminForm::panel()
 
 $form->addItem(AdminFormElement::date('created_at', 'Created at'));
 
-$form->addElement(AdminFormElement::date('created_at', 'Created at')); // Поместит элемент без блока
+$form->addElement(AdminFormElement::date('created_at', 'Created at')); // Place element without block
 
 $form->setElements([
     AdminFormElement::date('created_at', 'Created at')
-]); // Поместит список элементов без блока
+]); // Place list of elements without block
 ```
 
-Блоки формы - это классы, реализующие интерфейс `SleepingOwl\Admin\Contracts\Form\PanelInterface`, при необходимости вы можете создать свой класс блока и добавлять его в форму:
+Form blocks are classes, implementing interface `SleepingOwl\Admin\Contracts\Form\PanelInterface`. You can implement 
+your own block class and put it into form:
 
 ```php
 $form->addElement(new \App\Form\Panel\CustomBlockClass([
@@ -64,27 +66,28 @@ $form->addElement(new \App\Form\Panel\CustomBlockClass([
 ### API
 
 #### addItem
-Добавление элемента в форму. Если в форме уже есть блоки (`header`, `body`, `footer`), то элемент будет добавлен в последний добавленый блок, если блоков нет, то будет создан блок `body` и в него помещен элемент.
+Add element to form. If form already contains blocks (`header`, `body`, `footer`), then element will be added to last
+added block. If there are not blocks, `body` block will be created, and element will be placed inside it.
 
     SleepingOwl\Admin\Form\FormDefault::addItem(mixed $item): return self
 
 #### addHeader
-Добавление элементов в блок `panel-heading`
+Add elements to block `panel-heading`
 
     SleepingOwl\Admin\Form\FormPanel::addHeader(array|\SleepingOwl\Admin\Contracts\FormElementInterface $items): return self
     
 #### addBody
-Добавление элементов в блок `panel-body`. Если предыдущий блок `body`, то между ними будет вставлен элемент `<hr />`
+Add elements to block `panel-body`. If previous block is `body`, a divider `<hr />` will be placed between them
 
     SleepingOwl\Admin\Form\FormPanel::addBody(array|\SleepingOwl\Admin\Contracts\FormElementInterface $items): return self
     
 #### addFooter
-Добавление элементов в блок `panel-footer`
+Add elements to block `panel-footer`
 
     SleepingOwl\Admin\Form\FormPanel::addFooter(array|\SleepingOwl\Admin\Contracts\FormElementInterface $items): return self
 
 ## tabbed
-Разновидность форм, в которой элементы можно разделять на вкладки.
+A variation of forms, in which you can distribute elements across tabs
 
 ```php
 AdminForm::tabbed()->setElements([
@@ -97,53 +100,54 @@ AdminForm::tabbed()->setElements([
 ]);
 ```
 
-# API (методы доступные во всех классах)
+# API (methods available in all classes)
 
-В классах форм используется трейт:
- - [HtmlAttributes](html_attributes.md), с помощью которого для них можно настраивать HTML атрибуты.
- - [Assets](assets_trait.md), с помощью которого для них можно подключать ассеты.
+Forms class uses traits:
+  - [HtmlAttributes](html_attributes.md), to configure HTML attributes.
+  - [Assets](assets_trait.md), to include assets.
 
 #### setButtons
-Указание класса отвечающего за вывод кнопок формы. По умолчанию `SleepingOwl\Admin\Form\FormButtons`
+Set class which renders buttons. Default: `SleepingOwl\Admin\Form\FormButtons`
 
     SleepingOwl\Admin\Form\FormDefault::setButtons(\SleepingOwl\Admin\Contracts\FormButtonsInterface $buttons): return self
 
 #### setView
-Указание view отвечающего за вывод формы
+Set view, used to render form
 
     SleepingOwl\Admin\Form\FormDefault::setView(\Illuminate\View\View|string $view): return self
     
 #### setAction
-Указание ссылки, на которую будут отправлены данные формы.
+Set URL, to which form will send data
 
     SleepingOwl\Admin\Contracts\FormInterface::setAction(string $action): return self
     
 #### setElements
-Добавление массива элементов в форму
+Add elements array to form
 
     SleepingOwl\Admin\Contracts\Form\ElementsInterface::setElements(array $elements): return self
     
 
 #### addElement
-Добавление элемента в форму
+Add single element to form
 
     SleepingOwl\Admin\Form\FormElements::addElement(mixed $element): return self
     
-# Элементы формы (Поля)
+# Form elements (Fields)
 В качестве элемента формы может выступать любой класс, которые реализует интерфейс `Illuminate\Contracts\Support\Renderable`.
 
 ## AdminColumn
-в случае необходимости можно использовать колонки таблиц
+You can use table columns, if needed
 
 ```php
 AdminForm::form()->setElements([
-    AdminFormElement::upload('image', 'Image'), // Элемент загрузки картинки
-    AdminColumn::image('image', 'Image') // Вывод загружененой картинки
+    AdminFormElement::upload('image', 'Image'), // Input element to upload image
+    AdminColumn::image('image', 'Image') // Output uploaded image
 ])
 ```
 
-## Табы
-Вы можете в качестве элемента формы помещать табы. **Делайте названия табов уникальные при размещении несколько разделов со вкладками, т.к. табы могут включаться некорректно.**
+## Tabs
+You can place form elements to tabs. 
+**Provide unique tab names, when you place several tab sections, otherwise tabs can switch incorrectly.**
 
 ```php
 $tabs = AdminDisplay::tabbed();
@@ -174,8 +178,8 @@ $tabs1 = ....;
 AdminForm::form()
     ->addElement($tabs)
     ->setElements([
-        AdminFormElement::upload('image', 'Image'), // Элемент загрузки картинки
-        AdminColumn::image('image', 'Image') // Вывод загружененой картинки
+        AdminFormElement::upload('image', 'Image'), // Input element to upload image
+        AdminColumn::image('image', 'Image') // Output image element
     ])
     ->addElement($tabs1);
     
@@ -196,7 +200,7 @@ $form = AdminForm::panel()
 ```
 
 ## Columns
-Позволяет разбивать форму на несколько столбцов. Колонки могут быть использованы в табах и наоборот.
+Split form into several columns. Columns can be used inside tabs, and vice versa..
 
 ```php
 $columns = AdminFormElement::columns([
@@ -246,7 +250,7 @@ $subColumns->addColumn(...)
 $form = AdminForm::panel()->addBody($columns);
 ```
 
-#### Пример использования колонок с табами
+#### Example of usage columns and tabs together
 ```php
 
 $tabs = AdminDisplay::tabbed([
@@ -273,9 +277,10 @@ $tabs->appendTab(new FormElements([$columns]));
 ```
 
 ## Upload
-Поле `AdminFormElement::upload('image', 'Image')` используется для загрузки файлов на сервер посредством `<input type="upload" />`.
+Element `AdminFormElement::upload('image', 'Image')` is used to upload files using `<input type="upload" />`.
 
-При добавлении поля, форма должна автоматически получить html атрибут `enctype="multipart/form-data"`. Если этого не произошло, вы можете добавить атрибут вручную:
+When you add this element, form should automatically get attribute `enctype="multipart/form-data"` assigned.. 
+If it does not happen,:
 
 ```php
 return AdminForm::panel()
@@ -283,9 +288,11 @@ return AdminForm::panel()
     ->setHtmlAttribute('enctype', 'multipart/form-data');
 ```
 
-Для работы с этим полем существует специальный трейт `KodiComponents\Support\Upload`, который поможет с загрузкой прикрепленного файла и сохранением ссылки на него в БД. (При желании данный трейт можно использовать отдельно, используя composer пакет `kodicomponents/support`)
+To work with this element, you can use trait `KodiComponents\Support\Upload`, which helps to upload file attachment
+and save link to it into DB. (You can use this trait standalone, with composer package kodicomponents/support) 
+ который поможет с загрузкой прикрепленного файла и сохранением ссылки на него в БД. (При желании данный трейт можно использовать отдельно, используя composer пакет `kodicomponents/support`)
 
-Пример использования:
+Usage example:
 
 ```php
 class User extends Model
@@ -303,9 +310,12 @@ class User extends Model
 }
 ```
 
-После добавления трейта в модель необходимо в `$casts` указать поля, которые должны работать с файлами. Для файлов необходимо указать тип `file` или `upload`, для изображений `image`. **В качестве файла ожидается объект `Illuminate\Http\UploadedFile`**
+After you add trait to model, you should add to `$casts` array fields, which should work with uploaded files. 
+Files should have type `file` or `upload`, images should have type `image`.
+**Object `Illuminate\Http\UploadedFile` is expected as file**
 
-Если тип файла указан `image`, то можно указать правила обработки изображения (Для работы с изображениями используется пакет http://image.intervention.io/)
+If you set field type to `image`, then you can provide rules for image processing 
+(Work with images implemented via package http://image.intervention.io/)
 
 ```php
 /**
@@ -314,8 +324,8 @@ class User extends Model
 public function getUploadSettings()
 {
     return [
-        'image' => [ // Ключ поля
-            // Название функции, которую необходимо применить к изображению http://image.intervention.io/api/fit и параметры передаваемые в нее
+        'image' => [ // Key field
+            // Name of function to apply to image http://image.intervention.io/api/fit and parameters, passed to it
             'fit' => [300, 300, function ($constraint) {
                 $constraint->upsize();
                 $constraint->aspectRatio();
@@ -330,8 +340,8 @@ public function getUploadSettings()
 }
 ```
 
-По умолчанию путь сохранения файла: `public\storage\{table_name}\{field_name}\{file_name_hash:2chars}\{uniqid}.{ext}`.
-При желании можно указать свой формат имени файла
+Default path to store files: `public\storage\{table_name}\{field_name}\{file_name_hash:2chars}\{uniqid}.{ext}`.
+You can provide your own file name format
 
 ```php
 /**
@@ -344,9 +354,9 @@ protected function getUploadFilename(\Illuminate\Http\UploadedFile $file)
     return md5($this->id).'.'.$file->getClientOriginalExtension();
 }
 ```
-Путь хранения файла пока что изменить невозможно.
+At present moment you cannot change path to store files.
 
-В случае если у вас несколько файлов изображений, например, миниатюра и большое изображение и вы хотите загружать их через одно поле, то можно сделать следующим образом:
+If you have multiple image files (ex. thumbnail and large image), and you can load them via single field, you can do this:
 
 ```php
 /**
@@ -397,17 +407,19 @@ public function setUploadImageAttribute(\Illuminate\Http\UploadedFile $file = nu
 }
 ```
 
-И в форме указываем `AdminFormElement::upload('upload_image', 'Image')`, т.е. прикрепленный файл через поле с ключем `upload_image` будет передан в модель в созданный нами мутатор `setUploadImageAttribute`, где файл будет передан в нужные нам поля и сохранен согласно их правилам.
+In form you write `AdminFormElement::upload('upload_image', 'Image')`, i.e. uploaded file will be passed into model, 
+using `upload_image` field mutator `setUploadImageAttribute`, where file will be stored to appropriate fields, processed
+and saved according to their rules.
 
-Также для загруженного файла доступны ссылка на файл и абсолюьтный путь. Например рассмотрим поле с ключем `image`:
+Also uploaded file has full local path and URL. Ex. for field named `image`:
 
  - `$user->image` `public\storage\users\image\23n4b23hj4b.jpg`
  - `$user->image_path` `\var\www\site.com\public\storage\users\image\23n4b23hj4b.jpg`
  - `$user->image_url` `http:\\site.com\storage\users\image\23n4b23hj4b.jpg`
  - 
  
-### Валидация
-Данный тип поля поддерживает валидацию загружаемых файлов 
+### Validation
+This field type supports uploaded files validation  
  - https://laravel.com/docs/5.2/validation#rule-image
  - https://laravel.com/docs/5.2/validation#rule-mimetypes
  - https://laravel.com/docs/5.2/validation#rule-mimes
@@ -420,5 +432,6 @@ AdminFormElement::upload('image', 'Image')->addValidationRule('image')
 AdminFormElement::upload('pdf', 'PDF')->addValidationRule('mime:pdf'),
 ```
 
-### Ограничение использования трейта
-**!!!Трейт переопределет методы `getAttribute`, `mutateAttribute`, `setAttribute`, в случае, если они переопределены у вас в модели, могут возникнуть проблемы в работе!!!**
+### Trait usage limitations
+**!!! Trait will override methods `getAttribute`, `mutateAttribute`, `setAttribute`. In case you override them 
+in your model too, this can cause troubles !!!**
