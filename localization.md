@@ -29,7 +29,7 @@ SleepingOwl Admin uses locale from your `config/app.php`.
 
 ## Your own locales
 
-You can create your own locals. Create file `resources/lang/vendor/sleeping_owl/{locale}/lang.php`, 
+You can create your own locales. Create file `resources/lang/vendor/sleeping_owl/{locale}/lang.php`, 
 insert everything from `vendor/laravelrus/sleepingowl/resource/lang/{locale}/lang.php` and edit appropriately. 
 
 **You can create pull request to merge your localization into main package.**

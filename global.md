@@ -1,6 +1,6 @@
-# Описание работы системы
+# Generic description
 
-Работа системы начинается в тот момент, когда вы подключаете сервис провайдер `SleepingOwl\Admin\Providers\SleepingOwlServiceProvider` в ваше Laravel приложение
+System starts work when you bootstrap `SleepingOwl\Admin\Providers\SleepingOwlServiceProvider` in your Laravel application
 
 ```php
 // config/app.php
@@ -21,31 +21,32 @@
 ],
 ```
 
-После подключения, пакет `SleepingOwl` произведет регистрацию своих компонентов:
+After bootstrap `SleepingOwl` registers its components:
 
-- Подключение конфига sleeping_owl.php
-- Регистрация view шаблонов c namespace `sleeping_owl::`
-- Регистрация языковых файлов с namespace `sleeping_owl::`
-- Регистрация media assets из файла https://github.com/LaravelRUS/SleepingOwlAdmin/blob/master/resources/assets.php
-- Публикация media библиотек в `public/packages/sleepingowl`
-- Регистрация сервис провайдеров из конфига `sleeping_owl` (Это сделано для того, чтобы вам не пришлось вручную
-подключать кучу лишних сервис провайдеров и вы всегда могли изменить набор)
-- Регистрация фасадов из конфига `sleeping_owl`
-- Регистрация консольных команд
+- Load config sleeping_owl.php
+- Register view templates with namespace `sleeping_owl::`
+- Register language packs with namespace `sleeping_owl::`
+- Register media assets from file https://github.com/LaravelRUS/SleepingOwlAdmin/blob/master/resources/assets.php
+- Publish media libraries in `public/packages/sleepingowl`
+- Register service providers from `sleeping_owl` config (this allows you not to register lots of them in main application,
+  and you always can change that set)
+- Register facades from `sleeping_owl` config
+- Register console commands
 
-Если вам необходимо заменить системный шаблон, то необходимо поместить его `resources\views\vendor\sleeping_owl\default\`, т.е.
-если есть шаблон по пути `sleepingowl\src\resources\default\display\extensions\columns.blade.php`, то путь в системе должен быть
-`resources\views\vendor\sleeping_owl\default\display\extensions\columns.blade.php`
+If you want to replace system template, then you should place it in `resources\views\vendor\sleeping_owl\default\`, i.e.
+If system has template in `sleepingowl\src\resources\default\display\extensions\columns.blade.php`, 
+then replacing template should be in `resources\views\vendor\sleeping_owl\default\display\extensions\columns.blade.php`
 
-### Регистрируемые сервис контейнеры:
+### Registered service containers:
 
 - AdminSection - `sleeping_owl` - `SleepingOwl\Admin\Admin`
 - AdminTemplate - `sleeping_owl.template` - `SleepingOwl\Admin\Templates\TemplateDefault`
 - AdminNavigation - `sleeping_owl.navigation` - `SleepingOwl\Admin\Navigation`
 - WysiwygManager - `sleeping_owl.wysiwyg` - `SleepingOwl\Admin\Wysiwyg\Manager`
 
-Также для удобства работы с данными, классы полей, таблиц, форм и т.д. собраны в отдельные группы (https://github.com/LaravelRUS/SleepingOwlAdmin/blob/master/src/Providers/AliasesServiceProvider.php),
-доступ к данным каждой группы также осуществляется через сервис контейнер
+Also to work with data more conveniently, field, tables, forms etc. classes are grouped 
+(https://github.com/LaravelRUS/SleepingOwlAdmin/blob/master/src/Providers/AliasesServiceProvider.php),
+each group is accessible via service container too 
 
 - AdminColumnFilter - `sleeping_owl.column_filter`
 - AdminDisplay - `sleeping_owl.display`
@@ -55,31 +56,31 @@
 - AdminForm - `sleeping_owl.form`
 - AdminFormElement - `sleeping_owl.form.element`
 
-**Если вы хотите добавить, допустим, новый тип поля, вам необходимо сделать следующее**
+**If you want to add new field type, for example, you should do following**
 
 ```php
 \AdminColumn::add('field_type', \App\Fields\CustomField::class);
-// или
+// or
 app('sleeping_owl.table.column')->add('field_type', \App\Fields\CustomField::class);
 
-//После чего поле будет доступно следующим образом
+// after that field will be available like this
 
 \AdminColumn::field_type()->...
-// или
+// or
 app('sleeping_owl.table.column')->field_type()->...
 ```
 
-### Подключение файлов
+### Files loading
 
-После регистрации всех компонентов происходит поиск файлов в директории `app/Admin` и их подключение.
-- Первым делом происходит подключение `bootstrap.php`
-- Далее файлы конфигурации моделей
+After all components registration system looks for files in `app/Admin` and loads them.
+- First loads `bootstrap.php`
+- Then loads modules configuration
 
-**После того, как во всех сервис провайдерах приложения будет вызван метод `boot`, будет произведено**
-*(Вызов производится по событию `app()->booted` для того, чтобы вы имели возможность регистрировать модели
-не только через файлы в папке `app/Admin`, но и через сервис провайдеры)*:
-- Подключение `app/Admin/routes.php` *(При наличии файла)*
-- Регистрация системных роутов
-- Подключение `app/Admin/navigation.php` *(При наличии файла)*
+**After method `boot` is executed in all service providers, system will execute**
+*(Execution happens upon `app()->booted` event in order to allow you register models not only in `app/Admin`, 
+folder, but with your service providers too)*:
+- Load `app/Admin/routes.php` *(if file exists)*
+- Register system routes
+- Load `app/Admin/navigation.php` *(if file exists)*
 
-!!! **После регистрации системных роутов, создание новых разделов может привести к ошибкам при использовании алиасов** !!!
+!!! **After registration of system routes, creating new sections may cause errors, if aliases are used** !!!
