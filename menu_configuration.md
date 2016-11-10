@@ -1,51 +1,51 @@
-# Конфигурация меню
+# Menu Configuration
 
-Конфигурация меню SleepingOwl Admin по умолчанию располагается в `app/Admin/navigation.php`. Если файл
-возвращает массив, то этот массив будет также использоваться для построения меню.
+SleepingOwl Admin menu configuration is located by default at `app/Admin/navigation.php`. If file
+returns array, this array will be used to build menu.
 
-Класс навигации `SleepingOwl\Admin\Navigation` инициализируется через Service Container 
-и доступ к нему можно получить несколькими способами:
+Navigation class `SleepingOwl\Admin\Navigation` is initialized by Service Container 
+and can be accessed using following methods:
 
 ```php
 $navigation = app('sleeping_owl.navigation');
 
-// Или используя фасад
+// or using facade
 
 $navigation = AdminNavigation::getRootFacade();
 ```
 ____
 
-Новый раздел в меню можно добавить несколькими способами:
+New menu section can be added using following methods:
 
-**Через сервис контейнер или фасад**
+**Using service container or facade**
 ```php
 app('sleeping_owl.navigation')
     ->addPage()
     ->setTitle('Blog')
     ->setUrl('/blog');
     
-// Или
+// or
 
-// Создание элемента меню для модели
+// Create menu element for model
 AdminNavigation::addPage(\App\Blog::class)
     ->setPriority(100)
     ->setIcon('fa fa-newspaper-o');
 ```
 
-**Через `AdminSection` класс**
+**Using `AdminSection` class**
 
 ```php
 AdminSection::addMenuPage(\App\User::class);
 ```
 
-Метод `addPage` может принимать в качестве аргумента
+Method `addPage` can accept as argument
  - `[string] Model class name`
  - `[SleepingOwl\Admin\Navigation\Page] Page class`
  - `[array] ['title' => 'News', 'priority' => 100, 'icon' => 'fa fa-newspaper-o']`
  
-**Пример**
+**Example**
 ```php
-// Зарегестрированный класс модели использованной для создания раздела
+// Use registered model class to add section
 AdminNavigation::addPage(\App\Blog::class);
 
 AdminNavigation::addPage(new Page()->setTitle('News'));
@@ -53,7 +53,7 @@ AdminNavigation::addPage(new Page()->setTitle('News'));
 AdminNavigation::addPage(['title' => 'News', 'priority' => 100, 'icon' => 'fa fa-newspaper-o']);
 ```
 
-Меню может иметь неограниченную вложеность страниц:
+Menu can have unlimited pages nesting:
 
 ```php
 use SleepingOwl\Admin\Navigation\Page;
@@ -77,7 +77,7 @@ AdminNavigation::addPage(\App\Blog::class)->setPages(fuction(Page $section) {
 });
 ```
 
-Также разделы в меню можно добавить в виде массива:
+Also you can add array of menu sections:
 
 ```php
 
@@ -93,8 +93,7 @@ $array = [
          'title' => 'About', 
          'priority' => 200, 
          'pages' => [
-             // Если в качестве страницы передана строка, то будет произведен поиск по
-             // зарагистрированой модели
+             // If string is passed as page, a search by registered models will be performed
              \App\Blog::class,
              
              (new Page())->setTitle('Us')->setUrl('about/us'),
@@ -110,18 +109,17 @@ $array = [
 
 AdminNavigation::setFromArray($array);
 
-// Или к внутренней странице
+// Nested menu section
 
 AdminNavigation::addPage(\App\Blog::class)->setPages(fuction(Page $section) {
        $section->addPage()->setTitle('Sub menu')->setFromArray($array);
 });
 ```
 
-## Доступ
+## Access
 
-Также для разделов меню можно настраивать првила видимости.
-Процесс проверки прав доступа выглядит следующим образом: каждый объект меню может иметь свое локальное правило
-проверки прав
+You can set visibility rules for each menu section. 
+Access check is following: each menu object can have its own local rule to check access
 
 ```php
 AdminNavigation::addPage(\App\Blog::class)->setAccessLogic(function() {
@@ -129,25 +127,24 @@ AdminNavigation::addPage(\App\Blog::class)->setAccessLogic(function() {
 })
 ```
 
-**Если правило для страницы не указано:**
- - Если пункт меню является ссылкой на раздел и рздел не дотсупен для просмотра, пункт исчезнет из меню
- - Если у страницы есть предок, то происходит проверка наличия правила, если оно указано, то будет произведена проверка
- - если предок не имеет павила, то подъем дальше по иерархии до глобального правила.
+**If there is no rule for page:**
+ - If menu item is a link to a section, and section is not accessible to view, menu item will become invisible
+ - If page has parent, check if parent page has access rule, and if it has, run that check
+ - If parent has no rule, go next level up, up to global rule.
 
-**Есть несколько сценариев настройки прав доступа:**
- - Указать глобальное правило
+**There are several access management scenarios:**
+ - Set global rule
  
 ```php
 AdminNavigation::setAccessLogic(function(Page $page) {
    return auth()->user()->isSuperAdmin();
 });
 ```
- - Указать правило для конкретной страницы
- - Указать правило для раздела содержащего страницы, это правило 
- распространится на все внутренние страницы не имеющие своего правила
+ - Set rule for each page
+ - Set rule for a section, it will be applied to each child page, that doesn't have its own rule
 
 ______
-Вот простой пример как может выглядеть конфигурация меню:
+A simple example of menu configuration:
 
 ```
 return [

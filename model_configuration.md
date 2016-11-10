@@ -1,10 +1,11 @@
-# Конфигурация модели
+# Model Configuration
 
-Конфигурация моделей SleepingOwl Admin должны быть расположены в директории, которая указывается в конфиге `sleeping_owl.bootstrapDirectory` (*по умолчанию: `app/admin`*).
+SleepingOwl Admin model configurations must be placed in a directory, configured in `sleeping_owl.bootstrapDirectory`
+ (*default: `app/Admin`*).
 
-Вы можете хранить конфигурацию моделей в одном файле или разделить на несколько по желанию.
+You can store model configurations in one file or distribute them across multiple files, as you wish.
 
-Ниже приведен пример того, как может выглядеть конфигурация модели:
+Here is a sample of model configuration:
 
 ```php
 AdminSection::registerModel(Company::class, function (ModelConfiguration $model) {
@@ -32,7 +33,8 @@ AdminSection::registerModel(Company::class, function (ModelConfiguration $model)
     ->setIcon('fa fa-bank');
 ```
 
-По умолчанию раздел будет доступен по ссылке `admin/companies`, т.е. будет взяно название класса в множественной форме. Для указания собственного пути, необходимо использовать метод `setAlias`
+By default section will be available at `admin/companies` URL, i.e. class name will be used in multiple form.
+To set your own path you may use method `setAlias`
 
 ```php
 ...
@@ -40,53 +42,55 @@ $model->setAlias('subdir/companies');
 ...
 ```
 
-## Всплывающие сообщения при совершении действий
+## Action popup messages
 
-Вы можете изменить текст сообщений, который отображается при добавлении, редактировании и удалении записи.
+You can change text of messages, displayed on record add, edit, delete.
 
 ```php
 AdminSection::registerModel(Company::class, function (ModelConfiguration $model) { 
 
-    // Создание записи
+    // Create record
     $model->setMessageOnCreate('Company created');
    
-    // Редактирование записи
+    // Edit record
     $model->setMessageOnUpdate('Company updated');
     
-    // Удаление записи
+    // Delete record
     $model->setMessageOnDelete('Company deleted');
    
-    // Восстановление записи
+    // Restore record
     $model->setMessageOnRestore('Company restored');
 });
 ```
 
-## Запрет на выполнение действий.
+## Restrict actions.
 
-Бывают случаи когда необходимо например запретить редактирование или удаление данных в разделе. Для этого целей существую специальные методы:
+In some cases you need to restrict editing or deleting records.
+There are special methods for this:
 
 ```php
 AdminSection::registerModel(Company::class, function (ModelConfiguration $model) { 
-    // Запрет на просмотр
+    // Disable view
     $model->disableDisplay();
     
-    // Запрет на создание
+    // Disable creating
     $model->disableCreating();
     
-    // Запрет на редактирование
+    // Disable editing
     $model->disableEditing();
     
-    // Запрет на удаление
+    // Disable deleting
     $model->disableDeleting();
     
-    // Запрет на восстановление
+    // Disable restoring
     $model->disableRestoring();
 })
 ```
 
-## Ограничение прав доступа
+## Access restriction
 
-По умолчанию все пользователи имеют доступ к разделам админ панели. Если вы хотите настроить права доступа к каким либо разделам вам необходимо в первую очередь включить проверку прав
+By default, all users have access to admin panel sections. 
+If you want to customize some sections access, first you should enable access check
 
 ```php
 AdminSection::registerModel(User::class, function (ModelConfiguration $model) {
@@ -96,11 +100,11 @@ AdminSection::registerModel(User::class, function (ModelConfiguration $model) {
 });
 ```
 
-После этого за проверку за каждое действие будет отвечать `Gate` https://laravel.com/docs/5.2/authorization#via-the-gate-facade
+After that each action access will be checked by `Gate` https://laravel.com/docs/5.3/authorization#via-the-gate-facade
 
-Как мы можем это использовать? В Laravel имеется для решения этой задачи отличное средство - `Policies` https://laravel.com/docs/5.2/authorization#policies
+How to use it? Laravel has an excellent mean for that - `Policies` https://laravel.com/docs/5.3/authorization#policies
 
-Поэтому необходимо создать класс, например `App\Policies\UserPolicy`
+You should create a new class, for example `App\Policies\UserPolicy`
 
 ```php
 <?php
@@ -186,11 +190,13 @@ class UserPolicy
 
 ```
 
-Данный класс содержит методы вызываемые в момент проверки прав доступа к определенным опреациям, в первую очередь вызывается метод `before`, в котором производится глобальная проверка прав, если он возвращает true, то дальнейшая проверка не проводится, если ничего не возвращает, то дальше происходим вызов метода, отвечающего за конкретное действие и передается два параметра:
-  - Объект текущего пользователя
-  - Объект для которого нужно проверить права доступа
-  - 
-Например если мы хотим чтобы пользователь мог создавать записи и редактировать только свои записи в блоге:
+This class contains methods, called when access is checked.
+First Gate calls method `before`, which checks global access permissions. If it returns true, others checks are ignored.
+If it returns nothing, Gate calls method, responsible for certain action, and passes two parameters:
+  - Current user object
+  - Object to validate access rights
+ 
+For example, we want user to be able to create new posts and edit only his own posts:
 ```php
 public function create(User $user, Post $post)
 {
@@ -203,7 +209,7 @@ public function edit(User $user, Post $post)
 }
 ```
 
-Теперь остается зарегестрировать policy в `App\Providers\AuthServiceProvider`
+Now we should register policy in `App\Providers\AuthServiceProvider`
 
 ```php
 protected $policies = [
